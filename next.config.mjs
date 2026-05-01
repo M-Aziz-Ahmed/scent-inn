@@ -1,6 +1,12 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  /* config options here */
+  images: {
+    remotePatterns: [
+      { protocol: 'https', hostname: '**' },
+    ],
+  },
+  // Ensure mongoose works in serverless environment
+  serverExternalPackages: ['mongoose'],
 };
 
 export default nextConfig;
