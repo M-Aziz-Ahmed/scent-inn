@@ -10,15 +10,17 @@ import Link from 'next/link'
 async function getData() {
   try {
     await connectDB()
-    const [heroSlides, featuredProducts, bestSellers] = await Promise.all([
+    const [heroSlides, featuredProducts, bestSellers, newArrivals] = await Promise.all([
       Product.find({ isHeroSlide: true, isActive: true }).sort({ heroSlideOrder: 1 }).limit(5).lean(),
       Product.find({ isFeatured: true, isActive: true }).sort({ featuredOrder: 1 }).limit(10).lean(),
       Product.find({ isActive: true }).sort({ salesCount: -1 }).limit(8).lean(),
+      Product.find({ isActive: true }).sort({ createdAt: -1 }).limit(6).lean(),
     ])
     return {
       heroSlides: JSON.parse(JSON.stringify(heroSlides)),
       featuredProducts: JSON.parse(JSON.stringify(featuredProducts)),
       bestSellers: JSON.parse(JSON.stringify(bestSellers)),
+      newArrivals: JSON.parse(JSON.stringify(newArrivals)),
     }
   } catch {
     return { heroSlides: [], featuredProducts: [], bestSellers: [] }
@@ -35,7 +37,7 @@ const CATEGORIES = [
 ]
 
 export default async function HomePage() {
-  const { heroSlides, featuredProducts, bestSellers } = await getData()
+  const { heroSlides, featuredProducts, bestSellers, newArrivals } = await getData()
 
   return (
     <>
@@ -91,6 +93,27 @@ export default async function HomePage() {
             </div>
           </div>
         </section>
+
+        {newArrivals.length > 0 && (
+          <section className="py-16 bg-[#0b0b0b]">
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+              <div className="flex items-center justify-between mb-8">
+                <div>
+                  <h2 className="text-3xl font-bold text-white">New Arrivals</h2>
+                  <div className="w-16 h-1 bg-[#c9a84c] mt-2 rounded-full" />
+                </div>
+                <Link href="/shop?sort=newest" className="btn-outline-gold px-4 py-2 rounded-lg text-sm">
+                  View All
+                </Link>
+              </div>
+              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+                {newArrivals.map((product) => (
+                  <ProductCard key={product._id} product={product} />
+                ))}
+              </div>
+            </div>
+          </section>
+        )}
 
         {/* Best Sellers */}
         {bestSellers.length > 0 && (

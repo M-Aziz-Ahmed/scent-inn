@@ -6,6 +6,7 @@ const NAV_ITEMS = [
   { href: '/admin/dashboard', label: 'Dashboard', icon: '📊' },
   { href: '/admin/products', label: 'Products', icon: '🌹' },
   { href: '/admin/orders', label: 'Orders', icon: '📦' },
+  { href: '/admin/shipping', label: 'Shipping Rates', icon: '🚚' },
   { href: '/admin/featured', label: 'Featured', icon: '⭐' },
 ]
 

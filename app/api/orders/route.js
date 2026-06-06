@@ -1,6 +1,8 @@
 import { connectDB } from '@/lib/db'
 import Order from '@/models/Order'
 import Product from '@/models/Product'
+import Settings from '@/models/Settings'
+import { getShippingCost, FREE_SHIPPING_THRESHOLD } from '@/lib/shipping'
 import { getAdminFromRequest } from '@/lib/auth'
 
 export async function GET(request) {
@@ -52,7 +54,11 @@ export async function POST(request) {
     })
   }
 
-  const shippingCost = body.shippingCost || 0
+  const shippingSettings = await Settings.findOne({ key: 'shippingRates' }).lean()
+  const shippingRates = shippingSettings?.value
+  let shippingCost = getShippingCost(body.shippingAddress?.city, shippingRates)
+  if (subtotal >= FREE_SHIPPING_THRESHOLD) shippingCost = 0
+
   const discount = body.discount || 0
   const total = subtotal + shippingCost - discount
 

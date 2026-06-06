@@ -1,12 +1,14 @@
 'use client'
-import { useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { useRouter } from 'next/navigation'
+import { getShippingCost } from '@/lib/shipping'
 
 export default function OrderForm({ product }) {
   const router = useRouter()
   const [qty, setQty] = useState(1)
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
+  const [shippingRates, setShippingRates] = useState(null)
   const [form, setForm] = useState({
     name: '',
     email: '',
@@ -22,6 +24,16 @@ export default function OrderForm({ product }) {
 
   const total = product.price * qty
 
+  const cityOptions = useMemo(
+    () => shippingRates ? Object.keys(shippingRates).filter((city) => city !== 'default') : [],
+    [shippingRates]
+  )
+
+  const formatCityLabel = (city) =>
+    city
+      .replace(/-/g, ' ')
+      .replace(/\b\w/g, (char) => char.toUpperCase())
+
   const handleChange = (e) => {
     setForm((prev) => ({ ...prev, [e.target.name]: e.target.value }))
   }
@@ -32,6 +44,7 @@ export default function OrderForm({ product }) {
     setError('')
 
     try {
+      const shippingCost = getShippingCost(form.city, shippingRates)
       const res = await fetch('/api/orders', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -51,7 +64,7 @@ export default function OrderForm({ product }) {
           items: [{ product: product._id, quantity: qty }],
           paymentMethod: form.paymentMethod,
           notes: form.notes,
-          shippingCost: 0,
+          shippingCost,
         }),
       })
 
@@ -65,6 +78,22 @@ export default function OrderForm({ product }) {
       setLoading(false)
     }
   }
+
+  useEffect(() => {
+    const fetchRates = async () => {
+      try {
+        const res = await fetch('/api/shipping')
+        const data = await res.json()
+        setShippingRates(data.rates || null)
+      } catch {
+        setShippingRates(null)
+      }
+    }
+    fetchRates()
+  }, [])
+
+  const shippingCost = useMemo(() => getShippingCost(form.city, shippingRates), [form.city, shippingRates])
+  const orderTotal = total + shippingCost
 
   return (
     <form onSubmit={handleSubmit} className="card-dark rounded-2xl p-6 space-y-5">
@@ -128,14 +157,41 @@ export default function OrderForm({ product }) {
       <div className="grid grid-cols-2 gap-4">
         <div>
           <label className="block text-sm text-gray-400 mb-1">City *</label>
-          <input
-            name="city"
-            value={form.city}
-            onChange={handleChange}
-            required
-            placeholder="Karachi"
-            className="w-full bg-[#1a1a1a] border border-[#c9a84c]/20 rounded-lg px-3 py-2.5 text-white placeholder-gray-600 focus:outline-none focus:border-[#c9a84c]/60 text-sm"
-          />
+          {shippingRates && cityOptions.length > 0 ? (
+            <>
+              <select
+                name="city"
+                value={form.city}
+                onChange={handleChange}
+                required
+                className="w-full bg-[#1a1a1a] border border-[#c9a84c]/20 rounded-lg px-3 py-2.5 text-white focus:outline-none focus:border-[#c9a84c]/60 text-sm"
+              >
+                <option value="">Select your city</option>
+                {cityOptions.map((city) => (
+                  <option key={city} value={city}>
+                    {formatCityLabel(city)}
+                  </option>
+                ))}
+              </select>
+              <p className="text-xs text-gray-400 mt-2">
+                Choose your delivery city from the list configured in admin.
+              </p>
+            </>
+          ) : (
+            <input
+              name="city"
+              value={form.city}
+              onChange={handleChange}
+              required
+              placeholder="Karachi"
+              className="w-full bg-[#1a1a1a] border border-[#c9a84c]/20 rounded-lg px-3 py-2.5 text-white placeholder-gray-600 focus:outline-none focus:border-[#c9a84c]/60 text-sm"
+            />
+          )}
+          {form.city && shippingRates && (
+            <p className="text-xs text-gray-400 mt-2">
+              Shipping fee: <span className="text-[#c9a84c]">PKR {shippingCost?.toLocaleString()}</span>
+            </p>
+          )}
         </div>
         <div>
           <label className="block text-sm text-gray-400 mb-1">Province *</label>
@@ -243,7 +299,7 @@ export default function OrderForm({ product }) {
         disabled={loading}
         className="w-full btn-gold py-4 rounded-full text-lg font-bold disabled:opacity-60 disabled:cursor-not-allowed"
       >
-        {loading ? 'Placing Order...' : `Place Order — PKR ${total.toLocaleString()}`}
+        {loading ? 'Placing Order...' : `Place Order — PKR ${orderTotal.toLocaleString()}`}
       </button>
 
       <p className="text-center text-xs text-gray-500">

@@ -76,11 +76,11 @@ export default async function OrderPage({ params }) {
                 </div>
                 <div className="flex justify-between text-gray-400">
                   <span>Shipping</span>
-                  <span className="text-green-400">Free</span>
+                  <span className="text-[#c9a84c]">Calculated at checkout</span>
                 </div>
                 <div className="flex justify-between text-white font-bold text-base pt-2 border-t border-[#c9a84c]/20">
                   <span>Total</span>
-                  <span className="text-[#c9a84c]">PKR {product.price?.toLocaleString()}</span>
+                  <span className="text-[#c9a84c]">PKR {product.price?.toLocaleString()}+</span>
                 </div>
               </div>
 
