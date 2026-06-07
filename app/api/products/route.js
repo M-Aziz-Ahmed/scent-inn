@@ -41,12 +41,33 @@ export async function GET(request) {
   })
 }
 
+async function getNextOrder(field) {
+  const maxProduct = await Product.findOne({ [field]: { $gt: 0 }, isActive: true }).sort({ [field]: -1 }).lean()
+  return maxProduct ? (maxProduct[field] || 0) + 1 : 1
+}
+
 export async function POST(request) {
   const admin = await getAdminFromRequest(request)
   if (!admin) return Response.json({ error: 'Unauthorized' }, { status: 401 })
 
   await connectDB()
   const body = await request.json()
+
+  if (body.isFeatured === true) {
+    if (!body.featuredOrder || body.featuredOrder <= 0) {
+      body.featuredOrder = await getNextOrder('featuredOrder')
+    }
+  } else {
+    body.featuredOrder = 0
+  }
+
+  if (body.isHeroSlide === true) {
+    if (!body.heroSlideOrder || body.heroSlideOrder <= 0) {
+      body.heroSlideOrder = await getNextOrder('heroSlideOrder')
+    }
+  } else {
+    body.heroSlideOrder = 0
+  }
 
   try {
     const product = await Product.create(body)
