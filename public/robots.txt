@@ -1,4 +1,7 @@
 User-agent: *
-Disallow: /
+Disallow:
 
-# Prevent indexing on all pages. Remove to allow crawling.
+# Sitemap location
+Sitemap: https://scent-inn.vercel.app/sitemap.xml
+
+# To re-enable blocking, set Disallow: /
