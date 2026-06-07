@@ -32,6 +32,7 @@ const ProductSchema = new mongoose.Schema(
     reviewCount: { type: Number, default: 0 },
     tags: [String],
     isActive: { type: Boolean, default: true },
+    viewsCount: { type: Number, default: 0 },
   },
   { timestamps: true }
 )

@@ -3,6 +3,7 @@ import { redirect } from 'next/navigation'
 import { connectDB } from '@/lib/db'
 import Order from '@/models/Order'
 import Product from '@/models/Product'
+import ProductView from '@/models/ProductView'
 
 export default async function AnalyticsPage() {
   const session = await getAdminSession()
@@ -45,6 +46,30 @@ export default async function AnalyticsPage() {
     Order.find().sort({ createdAt: -1 }).limit(5).lean(),
   ])
 
+  const [totalViews, topViewedAgg, topReferrers] = await Promise.all([
+    ProductView.countDocuments(),
+    ProductView.aggregate([
+      { $group: { _id: '$slug', views: { $sum: 1 } } },
+      { $sort: { views: -1 } },
+      { $limit: 5 },
+      {
+        $lookup: {
+          from: 'products',
+          localField: '_id',
+          foreignField: 'slug',
+          as: 'product',
+        },
+      },
+      { $unwind: { path: '$product', preserveNullAndEmptyArrays: true } },
+      { $project: { slug: '$_id', views: 1, name: '$product.name' } },
+    ]),
+    ProductView.aggregate([
+      { $group: { _id: { $ifNull: ['$referrer', 'direct'] }, count: { $sum: 1 } } },
+      { $sort: { count: -1 } },
+      { $limit: 10 },
+    ]),
+  ])
+
   const totalRevenue = revenueResult[0]?.total || 0
   const monthRevenue = monthRevenueResult[0]?.total || 0
 
@@ -84,6 +109,10 @@ export default async function AnalyticsPage() {
           <strong>Revenue This Month</strong>
           <div>${monthRevenue.toFixed(2)}</div>
         </div>
+        <div style={{ padding: 12, border: '1px solid #ddd' }}>
+          <strong>Total Views</strong>
+          <div>{totalViews}</div>
+        </div>
       </div>
 
       <section style={{ marginTop: 24 }}>
@@ -95,6 +124,13 @@ export default async function AnalyticsPage() {
             </li>
           ))}
         </ul>
+
+        <h3 className="mt-6">Top Viewed Products</h3>
+        <ul>
+          {topViewedAgg.map((t) => (
+            <li key={t.slug}>{t.name || t.slug} — {t.views} views</li>
+          ))}
+        </ul>
       </section>
 
       <section style={{ marginTop: 24 }}>
@@ -102,6 +138,15 @@ export default async function AnalyticsPage() {
         <ul>
           {recentOrders.map((o) => (
             <li key={o._id}>{o._id} — {o.status} — ${o.total?.toFixed(2) || '0.00'}</li>
+          ))}
+        </ul>
+      </section>
+
+      <section style={{ marginTop: 24 }}>
+        <h2>Top Referrers</h2>
+        <ul>
+          {topReferrers.map((r) => (
+            <li key={r._id}>{r._id} — {r.count}</li>
           ))}
         </ul>
       </section>
