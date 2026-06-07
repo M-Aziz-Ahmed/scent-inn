@@ -7,6 +7,20 @@ import FeaturedSlider from '@/components/FeaturedSlider'
 import ProductCard from '@/components/ProductCard'
 import Link from 'next/link'
 
+export const metadata = {
+  title: 'Scent Inn — Luxury Perfumes & Fragrances',
+  description:
+    'Shop luxury perfumes and handcrafted fragrances at Scent Inn. Discover oud, floral, unisex, and gift set collections with fast delivery across Pakistan.',
+  keywords: 'luxury perfume, fragrance, oud, attar, cologne, gift sets, best sellers, online perfume shop',
+  openGraph: {
+    title: 'Scent Inn — Luxury Perfumes & Fragrances',
+    description:
+      'Shop luxury perfumes and handcrafted fragrances at Scent Inn. Discover oud, floral, unisex, and gift set collections.',
+    type: 'website',
+    url: 'https://yourdomain.com',
+  },
+}
+
 async function getData() {
   try {
     await connectDB()

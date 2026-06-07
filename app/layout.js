@@ -11,11 +11,20 @@ export const metadata = {
   title: 'Scent Inn — Luxury Perfumes Brand',
   description:
     'Discover our exclusive collection of luxury perfumes. Handcrafted fragrances for the discerning individual.',
-  keywords: 'perfume, fragrance, luxury, oud, attar, scent, cologne',
+  keywords: 'perfume, fragrance, luxury, oud, attar, scent, cologne, online perfume store, best perfume',
   openGraph: {
-    title: 'Scent Inn — Luxury Perfumes',
-    description: 'Discover our exclusive collection of luxury perfumes.',
+    title: 'Scent Inn — Luxury Perfumes Brand',
+    description:
+      'Discover our exclusive collection of luxury perfumes. Handcrafted fragrances for the discerning individual.',
     type: 'website',
+    siteName: 'Scent Inn',
+    url: 'https://yourdomain.com',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Scent Inn — Luxury Perfumes Brand',
+    description:
+      'Discover our exclusive collection of luxury perfumes. Handcrafted fragrances for the discerning individual.',
   },
 }
 

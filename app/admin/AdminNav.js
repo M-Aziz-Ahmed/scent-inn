@@ -8,6 +8,7 @@ const NAV_ITEMS = [
   { href: '/admin/orders', label: 'Orders', icon: '📦' },
   { href: '/admin/shipping', label: 'Shipping Rates', icon: '🚚' },
   { href: '/admin/featured', label: 'Featured', icon: '⭐' },
+  { href: '/admin/settings', label: 'Settings', icon: '⚙️' },
   { href: '/admin/analytics', label: 'Analytics', icon: '📈' },
 ]
 
