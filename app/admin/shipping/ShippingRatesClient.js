@@ -62,7 +62,7 @@ export default function ShippingRatesClient() {
 
   return (
     <div className="flex min-h-screen">
-      <AdminNav />
+      {/* <AdminNav /> */}
       <main className="flex-1 p-6 lg:p-8">
         <div className="max-w-5xl mx-auto">
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">

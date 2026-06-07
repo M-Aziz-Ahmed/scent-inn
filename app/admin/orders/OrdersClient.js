@@ -52,7 +52,7 @@ export default function OrdersClient() {
 
   return (
     <div className="flex min-h-screen">
-      <AdminNav />
+      {/* <AdminNav /> */}
       <main className="flex-1 p-6 lg:p-8">
         <div className="max-w-6xl mx-auto">
           <h1 className="text-2xl font-bold text-white mb-6">Orders</h1>

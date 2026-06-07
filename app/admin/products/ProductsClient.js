@@ -48,7 +48,7 @@ export default function ProductsClient() {
 
   return (
     <div className="flex min-h-screen">
-      <AdminNav />
+      {/* <AdminNav /> */}
       <main className="flex-1 p-6 lg:p-8">
         <div className="max-w-6xl mx-auto">
           <div className="flex justify-between items-center mb-6">
