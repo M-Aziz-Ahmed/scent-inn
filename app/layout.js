@@ -26,11 +26,6 @@ export const metadata = {
     description:
       'Discover our exclusive collection of luxury perfumes. Handcrafted fragrances for the discerning individual.',
   },
-  robots: {
-    index: false,
-    follow: false,
-    nocache: true,
-  },
 }
 
 export default function RootLayout({ children }) {

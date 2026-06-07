@@ -7,19 +7,7 @@ const nextConfig = {
   },
   // Ensure mongoose works in serverless environment
   serverExternalPackages: ['mongoose'],
-  async headers() {
-    return [
-      {
-        source: '/:path*',
-        headers: [
-          {
-            key: 'X-Robots-Tag',
-            value: 'noindex, nofollow',
-          },
-        ],
-      },
-    ]
-  },
+  // No global X-Robots-Tag headers — allow crawlers to index unless otherwise configured
 };
 
 export default nextConfig;
