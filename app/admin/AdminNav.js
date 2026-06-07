@@ -6,6 +6,7 @@ import { useEffect, useState } from 'react'
 const NAV_ITEMS = [
   { href: '/admin/dashboard', label: 'Dashboard', icon: '📊' },
   { href: '/admin/products', label: 'Products', icon: '🌹' },
+  { href: '/admin/users', label: 'Users', icon: '👤' },
   { href: '/admin/orders', label: 'Orders', icon: '📦' },
   { href: '/admin/messages', label: 'Messages', icon: '✉️' },
   { href: '/admin/shipping', label: 'Shipping Rates', icon: '🚚' },
@@ -18,6 +19,7 @@ export default function AdminNav() {
   const pathname = usePathname()
   const router = useRouter()
   const [unread, setUnread] = useState(0)
+  const [newOrders, setNewOrders] = useState(0)
 
   const handleLogout = async () => {
     await fetch('/api/admin/logout', { method: 'POST' })
@@ -37,6 +39,14 @@ export default function AdminNav() {
         const msgs = data.messages || []
         const count = msgs.filter((m) => m.status === 'new').length
         setUnread(count)
+      })
+      .catch(() => {})
+    // fetch pending orders
+    fetch('/api/admin/orders', { headers: { Authorization: `Bearer ${token}` } })
+      .then((r) => r.json())
+      .then((data) => {
+        if (!mounted) return
+        setNewOrders(data.pendingCount || 0)
       })
       .catch(() => {})
     return () => {
@@ -69,6 +79,11 @@ export default function AdminNav() {
             {item.href === '/admin/messages' && unread > 0 && (
               <span className="ml-auto inline-flex items-center justify-center bg-red-500 text-xs text-white px-2 py-0.5 rounded-full">
                 {unread}
+              </span>
+            )}
+            {item.href === '/admin/orders' && newOrders > 0 && (
+              <span className="ml-auto inline-flex items-center justify-center bg-red-500 text-xs text-white px-2 py-0.5 rounded-full">
+                {newOrders}
               </span>
             )}
           </Link>
