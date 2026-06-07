@@ -3,6 +3,15 @@ export const metadata = {
   description: 'Scent Inn Admin Portal',
 }
 
+import AdminNav from './AdminNav'
+
 export default function AdminLayout({ children }) {
-  return <div className="min-h-screen bg-[#0a0a0a]">{children}</div>
+  return (
+    <div className="min-h-screen bg-[#0a0a0a] text-white">
+      <div className="flex">
+        <AdminNav />
+        <main className="flex-1 p-6">{children}</main>
+      </div>
+    </div>
+  )
 }

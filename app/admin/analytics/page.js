@@ -75,78 +75,89 @@ export default async function AnalyticsPage() {
 
   return (
     <div className="admin-analytics container">
-      <h1>Analytics</h1>
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', gap: 16 }}>
-        <div style={{ padding: 12, border: '1px solid #ddd' }}>
-          <strong>Total Orders</strong>
-          <div>{totalOrders}</div>
+      <div className="flex items-center justify-between mb-6">
+        <h1 className="text-2xl font-bold gold-text">Analytics</h1>
+      </div>
+
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+        <div className="bg-[#0f0f0f] border border-[#c9a84c]/20 p-4 rounded">
+          <div className="text-sm text-gray-400">Total Orders</div>
+          <div className="text-xl font-semibold">{totalOrders}</div>
         </div>
-        <div style={{ padding: 12, border: '1px solid #ddd' }}>
-          <strong>Pending Orders</strong>
-          <div>{pendingOrders}</div>
+
+        <div className="bg-[#0f0f0f] border border-[#c9a84c]/20 p-4 rounded">
+          <div className="text-sm text-gray-400">Pending Orders</div>
+          <div className="text-xl font-semibold">{pendingOrders}</div>
         </div>
-        <div style={{ padding: 12, border: '1px solid #ddd' }}>
-          <strong>Orders This Month</strong>
-          <div>{monthOrders}</div>
+
+        <div className="bg-[#0f0f0f] border border-[#c9a84c]/20 p-4 rounded">
+          <div className="text-sm text-gray-400">Orders This Month</div>
+          <div className="text-xl font-semibold">{monthOrders}</div>
         </div>
-        <div style={{ padding: 12, border: '1px solid #ddd' }}>
-          <strong>Orders Last Month</strong>
-          <div>{lastMonthOrders}</div>
+
+        <div className="bg-[#0f0f0f] border border-[#c9a84c]/20 p-4 rounded">
+          <div className="text-sm text-gray-400">Orders Last Month</div>
+          <div className="text-xl font-semibold">{lastMonthOrders}</div>
         </div>
-        <div style={{ padding: 12, border: '1px solid #ddd' }}>
-          <strong>Total Products</strong>
-          <div>{totalProducts}</div>
+
+        <div className="bg-[#0f0f0f] border border-[#c9a84c]/20 p-4 rounded">
+          <div className="text-sm text-gray-400">Total Products</div>
+          <div className="text-xl font-semibold">{totalProducts}</div>
         </div>
-        <div style={{ padding: 12, border: '1px solid #ddd' }}>
-          <strong>Featured Products</strong>
-          <div>{featuredProducts}</div>
+
+        <div className="bg-[#0f0f0f] border border-[#c9a84c]/20 p-4 rounded">
+          <div className="text-sm text-gray-400">Featured Products</div>
+          <div className="text-xl font-semibold">{featuredProducts}</div>
         </div>
-        <div style={{ padding: 12, border: '1px solid #ddd' }}>
-          <strong>Total Revenue</strong>
-          <div>${totalRevenue.toFixed(2)}</div>
+
+        <div className="bg-[#0f0f0f] border border-[#c9a84c]/20 p-4 rounded">
+          <div className="text-sm text-gray-400">Total Revenue</div>
+          <div className="text-xl font-semibold">${totalRevenue.toFixed(2)}</div>
         </div>
-        <div style={{ padding: 12, border: '1px solid #ddd' }}>
-          <strong>Revenue This Month</strong>
-          <div>${monthRevenue.toFixed(2)}</div>
+
+        <div className="bg-[#0f0f0f] border border-[#c9a84c]/20 p-4 rounded">
+          <div className="text-sm text-gray-400">Revenue This Month</div>
+          <div className="text-xl font-semibold">${monthRevenue.toFixed(2)}</div>
         </div>
-        <div style={{ padding: 12, border: '1px solid #ddd' }}>
-          <strong>Total Views</strong>
-          <div>{totalViews}</div>
+
+        <div className="bg-[#0f0f0f] border border-[#c9a84c]/20 p-4 rounded">
+          <div className="text-sm text-gray-400">Total Views</div>
+          <div className="text-xl font-semibold">{totalViews}</div>
         </div>
       </div>
 
-      <section style={{ marginTop: 24 }}>
-        <h2>Top Products</h2>
-        <ul>
+      <section className="mt-8">
+        <h2 className="text-lg font-semibold mb-2">Top Products</h2>
+        <ul className="list-disc ml-6 text-sm text-gray-200">
           {topProducts.map((p) => (
-            <li key={p._id || p.name}>
+            <li key={p._id || p.name} className="mb-1">
               {p.name} — sold {p.salesCount || 0} — ${p.price?.toFixed(2) || '0.00'}
             </li>
           ))}
         </ul>
 
-        <h3 className="mt-6">Top Viewed Products</h3>
-        <ul>
+        <h3 className="mt-6 text-sm font-medium text-gray-300">Top Viewed Products</h3>
+        <ul className="list-disc ml-6 text-sm text-gray-200">
           {topViewedAgg.map((t) => (
-            <li key={t.slug}>{t.name || t.slug} — {t.views} views</li>
+            <li key={t.slug} className="mb-1">{t.name || t.slug} — {t.views} views</li>
           ))}
         </ul>
       </section>
 
-      <section style={{ marginTop: 24 }}>
-        <h2>Recent Orders</h2>
-        <ul>
+      <section className="mt-8">
+        <h2 className="text-lg font-semibold mb-2">Recent Orders</h2>
+        <ul className="list-disc ml-6 text-sm text-gray-200">
           {recentOrders.map((o) => (
-            <li key={o._id}>{o._id} — {o.status} — ${o.total?.toFixed(2) || '0.00'}</li>
+            <li key={o._id} className="mb-1">{o._id} — {o.status} — ${o.total?.toFixed(2) || '0.00'}</li>
           ))}
         </ul>
       </section>
 
-      <section style={{ marginTop: 24 }}>
-        <h2>Top Referrers</h2>
-        <ul>
+      <section className="mt-8">
+        <h2 className="text-lg font-semibold mb-2">Top Referrers</h2>
+        <ul className="list-disc ml-6 text-sm text-gray-200">
           {topReferrers.map((r) => (
-            <li key={r._id}>{r._id} — {r.count}</li>
+            <li key={r._id} className="mb-1">{r._id} — {r.count}</li>
           ))}
         </ul>
       </section>
