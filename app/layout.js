@@ -24,6 +24,7 @@ export default function RootLayout({ children }) {
     <html lang="en" className={`${geist.variable} h-full`}>
       <body className="min-h-full flex flex-col bg-[#0a0a0a] text-white antialiased">
         {children}
+        <Analytics />
       </body>
     </html>
   )
