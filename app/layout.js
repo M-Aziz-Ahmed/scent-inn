@@ -8,7 +8,7 @@ const geist = Geist({
 })
 
 export const metadata = {
-  title: 'Scent Inn — Luxury Perfumes',
+  title: 'Scent Inn — Luxury Perfumes Brand',
   description:
     'Discover our exclusive collection of luxury perfumes. Handcrafted fragrances for the discerning individual.',
   keywords: 'perfume, fragrance, luxury, oud, attar, scent, cologne',
