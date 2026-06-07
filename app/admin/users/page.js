@@ -4,7 +4,6 @@ import UsersClient from './UsersClient'
 export default function UsersPage() {
   return (
     <div className="flex min-h-screen">
-      <AdminNav />
       <main className="flex-1 p-6 lg:p-8">
         <div className="max-w-6xl mx-auto">
           <UsersClient />
