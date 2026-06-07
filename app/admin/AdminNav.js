@@ -1,6 +1,7 @@
-'use client'
+ 'use client'
 import Link from 'next/link'
 import { usePathname, useRouter } from 'next/navigation'
+import { useEffect, useState } from 'react'
 
 const NAV_ITEMS = [
   { href: '/admin/dashboard', label: 'Dashboard', icon: '📊' },
@@ -16,6 +17,7 @@ const NAV_ITEMS = [
 export default function AdminNav() {
   const pathname = usePathname()
   const router = useRouter()
+  const [unread, setUnread] = useState(0)
 
   const handleLogout = async () => {
     await fetch('/api/admin/logout', { method: 'POST' })
@@ -23,6 +25,24 @@ export default function AdminNav() {
     router.push('/admin')
     router.refresh()
   }
+
+  useEffect(() => {
+    const token = localStorage.getItem('admin_token')
+    if (!token) return
+    let mounted = true
+    fetch('/api/admin/messages', { headers: { Authorization: `Bearer ${token}` } })
+      .then((r) => r.json())
+      .then((data) => {
+        if (!mounted) return
+        const msgs = data.messages || []
+        const count = msgs.filter((m) => m.status === 'new').length
+        setUnread(count)
+      })
+      .catch(() => {})
+    return () => {
+      mounted = false
+    }
+  }, [])
 
   return (
     <aside className="w-56 bg-[#111111] border-r border-[#c9a84c]/20 flex flex-col min-h-screen">
@@ -45,7 +65,12 @@ export default function AdminNav() {
             }`}
           >
             <span>{item.icon}</span>
-            {item.label}
+            <span className="truncate">{item.label}</span>
+            {item.href === '/admin/messages' && unread > 0 && (
+              <span className="ml-auto inline-flex items-center justify-center bg-red-500 text-xs text-white px-2 py-0.5 rounded-full">
+                {unread}
+              </span>
+            )}
           </Link>
         ))}
       </nav>

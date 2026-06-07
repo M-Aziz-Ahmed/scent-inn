@@ -4,6 +4,7 @@ import { connectDB } from '@/lib/db'
 import Order from '@/models/Order'
 import Product from '@/models/Product'
 import ProductView from '@/models/ProductView'
+import RefreshButton from './RefreshButton'
 
 export default async function AnalyticsPage() {
   const session = await getAdminSession()
@@ -111,6 +112,9 @@ export default async function AnalyticsPage() {
             A quick snapshot of orders, revenue, products, and visitor behavior. Use this page to track performance and choose top products for promotion.
           </p>
         </div>
+        <div className="flex items-center gap-3">
+          <RefreshButton />
+        </div>
       </header>
 
       <section className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
@@ -124,6 +128,15 @@ export default async function AnalyticsPage() {
             </div>
           </div>
         ))}
+      </section>
+
+      <section>
+        <details className="bg-[#0f0f0f] border border-[#c9a84c]/10 rounded-2xl p-4 mt-6">
+          <summary className="text-sm text-gray-400 cursor-pointer">Raw debug data (click to expand)</summary>
+          <pre className="mt-3 text-xs text-gray-200 overflow-auto max-h-96">
+{JSON.stringify({ totalOrders, pendingOrders, monthOrders, lastMonthOrders, totalRevenue: totalRevenueNum, monthRevenue: monthRevenueNum, revenueResult, monthRevenueResult, recentOrdersCount: recentOrders.length, recentOrdersSample: recentOrders.slice(0,3), topProductsCount: topProducts.length }, null, 2)}
+          </pre>
+        </details>
       </section>
 
       <section className="grid grid-cols-1 xl:grid-cols-[1.4fr_1fr] gap-6">
