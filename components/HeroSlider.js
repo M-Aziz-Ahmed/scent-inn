@@ -84,33 +84,30 @@ export default function HeroSlider({ slides: propSlides }) {
       {/* Content */}
       <div className="relative z-10 h-full flex items-center">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-            <div
-              key={current}
-              className="animate-slide-in"
-            >
-              <span className="inline-block text-[#c9a84c] text-sm font-semibold tracking-[0.3em] uppercase mb-4">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 items-center">
+            <div key={current} className="animate-slide-in text-center lg:text-left">
+              <span className="inline-block text-[#c9a84c] text-xs sm:text-sm font-semibold tracking-[0.3em] uppercase mb-4">
                 {slide.category?.replace('-', ' ')} Collection
               </span>
-              <h1 className="text-5xl md:text-7xl font-bold text-white leading-tight mb-4">
+              <h1 className="text-4xl sm:text-5xl md:text-6xl xl:text-7xl font-bold text-white leading-tight mb-4">
                 {slide.name}
               </h1>
-              <p className="text-xl text-gray-300 mb-2 italic">
+              <p className="text-base sm:text-xl text-gray-300 mb-3 italic max-w-2xl mx-auto lg:mx-0">
                 "{slide.heroSlideTagline || 'Discover the art of fragrance'}"
               </p>
-              <p className="text-3xl font-bold text-[#c9a84c] mb-8">
+              <p className="text-2xl sm:text-3xl font-bold text-[#c9a84c] mb-8">
                 PKR {slide.price?.toLocaleString()}
               </p>
-              <div className="flex flex-wrap gap-4">
+              <div className="flex flex-col sm:flex-row sm:justify-center lg:justify-start gap-3">
                 <Link
                   href={`/order/${slide.slug}`}
-                  className="btn-gold px-8 py-4 rounded-full text-lg inline-block"
+                  className="btn-gold w-full sm:w-auto px-6 py-3 rounded-full text-base sm:text-lg inline-block"
                 >
                   Order Now
                 </Link>
                 <Link
                   href={`/shop/${slide.slug}`}
-                  className="btn-outline-gold px-8 py-4 rounded-full text-lg inline-block"
+                  className="btn-outline-gold w-full sm:w-auto px-6 py-3 rounded-full text-base sm:text-lg inline-block"
                 >
                   View Details
                 </Link>
@@ -118,24 +115,27 @@ export default function HeroSlider({ slides: propSlides }) {
             </div>
 
             {/* Product image placeholder / image */}
-            <div className="hidden lg:flex justify-center items-center">
-              <div className="relative">
-                <div className="w-72 h-96 rounded-2xl bg-gradient-to-b from-[#c9a84c]/20 to-[#c9a84c]/5 border border-[#c9a84c]/30 flex items-center justify-center">
+            <div className="flex justify-center items-center">
+              <div className="relative w-full max-w-md sm:max-w-xl md:max-w-2xl">
+                <div className="w-full h-[420px] sm:h-[460px] md:h-[520px] rounded-[2rem] bg-gradient-to-b from-[#c9a84c]/20 to-[#c9a84c]/5 border border-[#c9a84c]/30 overflow-hidden shadow-[0_40px_120px_rgba(0,0,0,0.35)]">
                   {slide.images?.[0] ? (
                     <img
                       src={slide.images[0]}
                       alt={slide.name}
-                      className="w-full h-full object-cover rounded-2xl"
+                      className="w-full h-full object-cover"
                     />
                   ) : (
-                    <div className="text-center p-8">
-                      <div className="text-8xl mb-4">🌹</div>
-                      <p className="text-[#c9a84c] font-semibold">{slide.name}</p>
+                    <div className="flex h-full flex-col items-center justify-center gap-4 bg-[#111] text-center px-6">
+                      <div className="text-8xl">🌹</div>
+                      <div>
+                        <p className="text-xl font-semibold text-[#c9a84c]">{slide.name}</p>
+                        <p className="text-sm text-gray-400 mt-2">Beautiful perfume visuals coming soon.</p>
+                      </div>
                     </div>
                   )}
                 </div>
-                <div className="absolute -top-4 -right-4 w-24 h-24 rounded-full bg-[#c9a84c]/10 border border-[#c9a84c]/30 flex items-center justify-center">
-                  <span className="text-[#c9a84c] text-xs font-bold text-center leading-tight">
+                <div className="absolute -top-5 right-0 w-24 h-24 rounded-full bg-[#c9a84c]/10 border border-[#c9a84c]/30 flex items-center justify-center">
+                  <span className="text-[#c9a84c] text-[0.65rem] font-bold text-center leading-tight">
                     LUXURY<br />SCENT
                   </span>
                 </div>
