@@ -24,9 +24,6 @@ export default function Navbar() {
             <Link href="/about" className="hover:text-[#c9a84c] transition">
               About
             </Link>
-            <Link href="/admin/analytics" className="hover:text-[#c9a84c] transition">
-              Analytics
-            </Link>
             <Link href="/contact" className="hover:text-[#c9a84c] transition">
               Contact
             </Link>
@@ -58,9 +55,6 @@ export default function Navbar() {
             </Link>
             <Link href="/about" className="block hover:text-[#c9a84c] transition">
               About
-            </Link>
-            <Link href="/admin/analytics" className="block hover:text-[#c9a84c] transition">
-              Analytics
             </Link>
             <Link href="/contact" className="block hover:text-[#c9a84c] transition">
               Contact
