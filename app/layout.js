@@ -34,7 +34,7 @@ export default function RootLayout({ children }) {
       <meta name="google-site-verification" content="OxJnDlxKld6R8V8RXE_SqynIk0LcRgZlRtpsCXOIGKc" />
       <body className="min-h-full flex flex-col bg-[#0a0a0a] text-white antialiased">
         {children}
-        <Analytics />
+        <Analytics /> 
       </body>
     </html>
   )
