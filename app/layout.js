@@ -36,6 +36,7 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en" className={`${geist.variable} h-full`}>
+      <meta name="google-site-verification" content="OxJnDlxKld6R8V8RXE_SqynIk0LcRgZlRtpsCXOIGKc" />
       <body className="min-h-full flex flex-col bg-[#0a0a0a] text-white antialiased">
         {children}
         <Analytics />
