@@ -72,6 +72,8 @@ export default async function AnalyticsPage() {
 
   const totalRevenue = revenueResult[0]?.total || 0
   const monthRevenue = monthRevenueResult[0]?.total || 0
+  const totalRevenueNum = Number(totalRevenue || 0)
+  const monthRevenueNum = Number(monthRevenue || 0)
 
   const metricCards = [
     { title: 'Total Orders', value: totalOrders },
@@ -80,10 +82,25 @@ export default async function AnalyticsPage() {
     { title: 'Orders Last Month', value: lastMonthOrders },
     { title: 'Total Products', value: totalProducts },
     { title: 'Featured Products', value: featuredProducts },
-    { title: 'Total Revenue', value: `$${totalRevenue.toFixed(2)}` },
-    { title: 'Revenue This Month', value: `$${monthRevenue.toFixed(2)}` },
+    { title: 'Total Revenue', value: totalRevenueNum, type: 'currency' },
+    { title: 'Revenue This Month', value: monthRevenueNum, type: 'currency' },
     { title: 'Total Views', value: totalViews },
   ]
+
+  // Format referrers for display (safe parsing)
+  const formattedReferrers = topReferrers.map((r) => {
+    const id = r._id
+    let label = id === 'direct' ? 'Direct' : id
+    if (id && id !== 'direct') {
+      try {
+        const u = new URL(id)
+        label = u.hostname + (u.pathname && u.pathname !== '/' ? u.pathname.slice(0, 30) + '...' : '')
+      } catch (e) {
+        if (typeof id === 'string' && id.length > 40) label = id.slice(0, 40) + '...'
+      }
+    }
+    return { label, count: r.count }
+  })
 
   return (
     <div className="space-y-8">
@@ -96,11 +113,15 @@ export default async function AnalyticsPage() {
         </div>
       </header>
 
-      <section className="grid grid-cols-1 md:grid-cols-3 gap-6">
+      <section className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
         {metricCards.map((card) => (
-          <div key={card.title} className="bg-[#111111] border border-[#c9a84c]/20 rounded-3xl p-6 shadow-[0_0_30px_rgba(0,0,0,0.25)]">
-            <div className="text-sm uppercase tracking-[0.2em] text-gray-500 mb-4">{card.title}</div>
-            <div className="text-3xl font-semibold text-white">{card.value}</div>
+          <div key={card.title} className="bg-[#111111] border border-[#c9a84c]/12 rounded-2xl p-4 sm:p-5 flex flex-col justify-between">
+            <div>
+              <div className="text-xs uppercase tracking-[0.18em] text-gray-500 mb-2">{card.title}</div>
+              <div className="text-2xl sm:text-3xl md:text-3xl font-semibold text-white">
+                {card.type === 'currency' ? `PKR ${Number(card.value || 0).toLocaleString()}` : card.value}
+              </div>
+            </div>
           </div>
         ))}
       </section>
@@ -120,7 +141,7 @@ export default async function AnalyticsPage() {
                     <p className="text-sm text-gray-500">Sales: {p.salesCount || 0}</p>
                   </div>
                   <div className="text-right">
-                    <p className="font-semibold text-[#c9a84c]">${p.price?.toFixed(2) || '0.00'}</p>
+                    <p className="font-semibold text-[#c9a84c]">PKR {Number(p.price || 0).toLocaleString()}</p>
                   </div>
                 </div>
               ))}
@@ -136,10 +157,10 @@ export default async function AnalyticsPage() {
               {recentOrders.map((o) => (
                 <div key={o._id} className="flex items-center justify-between gap-4 bg-[#0f0f0f] rounded-2xl p-4 text-sm">
                   <div>
-                    <p className="font-medium text-white">Order {o._id.slice(-6)}</p>
+                    <p className="font-medium text-white">{o.orderNumber || `Order ${o._id.slice(-6)}`}</p>
                     <p className="text-gray-500">{o.status}</p>
                   </div>
-                  <div className="text-right text-[#c9a84c]">${o.total?.toFixed(2) || '0.00'}</div>
+                  <div className="text-right text-[#c9a84c]">PKR {Number(o.total || 0).toLocaleString()}</div>
                 </div>
               ))}
             </div>
@@ -164,9 +185,9 @@ export default async function AnalyticsPage() {
           <div className="bg-[#111111] border border-[#c9a84c]/20 rounded-3xl p-6">
             <h2 className="text-xl font-semibold text-white mb-4">Top Referrers</h2>
             <ul className="space-y-3 text-sm text-gray-200">
-              {topReferrers.map((r) => (
-                <li key={r._id} className="flex items-center justify-between gap-4 bg-[#0f0f0f] rounded-2xl p-4">
-                  <span>{r._id}</span>
+              {formattedReferrers.map((r, idx) => (
+                <li key={idx} className="flex items-center justify-between gap-4 bg-[#0f0f0f] rounded-2xl p-4">
+                  <span className="truncate max-w-[18rem]">{r.label}</span>
                   <span className="text-[#c9a84c]">{r.count}</span>
                 </li>
               ))}
