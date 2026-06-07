@@ -37,26 +37,44 @@ export default function FeaturedClient() {
 
   const toggleFeatured = async (product) => {
     const token = localStorage.getItem('admin_token')
+    const currentOrders = products.filter((p) => p.isFeatured && p._id !== product._id).map((p) => p.featuredOrder || 0)
+    const nextOrder = currentOrders.length ? Math.max(...currentOrders) + 1 : 1
+
     await fetch(`/api/products/${product._id}`, {
       method: 'PUT',
       headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
-      body: JSON.stringify({ isFeatured: !product.isFeatured }),
+      body: JSON.stringify(
+        product.isFeatured
+          ? { isFeatured: false, featuredOrder: 0 }
+          : { isFeatured: true, featuredOrder: nextOrder }
+      ),
     })
     fetchProducts()
   }
 
   const toggleHero = async (product) => {
     const token = localStorage.getItem('admin_token')
+    const currentOrders = products.filter((p) => p.isHeroSlide && p._id !== product._id).map((p) => p.heroSlideOrder || 0)
+    const nextOrder = currentOrders.length ? Math.max(...currentOrders) + 1 : 1
+
     await fetch(`/api/products/${product._id}`, {
       method: 'PUT',
       headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
-      body: JSON.stringify({ isHeroSlide: !product.isHeroSlide }),
+      body: JSON.stringify(
+        product.isHeroSlide
+          ? { isHeroSlide: false, heroSlideOrder: 0 }
+          : { isHeroSlide: true, heroSlideOrder: nextOrder }
+      ),
     })
     fetchProducts()
   }
 
-  const featuredProducts = products.filter((p) => p.isFeatured)
-  const heroProducts = products.filter((p) => p.isHeroSlide)
+  const featuredProducts = products
+    .filter((p) => p.isFeatured)
+    .sort((a, b) => (a.featuredOrder || 0) - (b.featuredOrder || 0))
+  const heroProducts = products
+    .filter((p) => p.isHeroSlide)
+    .sort((a, b) => (a.heroSlideOrder || 0) - (b.heroSlideOrder || 0))
 
   return (
     <div className="flex min-h-screen">

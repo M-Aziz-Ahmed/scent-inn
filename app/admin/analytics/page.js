@@ -73,93 +73,106 @@ export default async function AnalyticsPage() {
   const totalRevenue = revenueResult[0]?.total || 0
   const monthRevenue = monthRevenueResult[0]?.total || 0
 
+  const metricCards = [
+    { title: 'Total Orders', value: totalOrders },
+    { title: 'Pending Orders', value: pendingOrders },
+    { title: 'Orders This Month', value: monthOrders },
+    { title: 'Orders Last Month', value: lastMonthOrders },
+    { title: 'Total Products', value: totalProducts },
+    { title: 'Featured Products', value: featuredProducts },
+    { title: 'Total Revenue', value: `$${totalRevenue.toFixed(2)}` },
+    { title: 'Revenue This Month', value: `$${monthRevenue.toFixed(2)}` },
+    { title: 'Total Views', value: totalViews },
+  ]
+
   return (
-    <div className="admin-analytics container">
-      <div className="flex items-center justify-between mb-6">
-        <h1 className="text-2xl font-bold gold-text">Analytics</h1>
-      </div>
-
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-        <div className="bg-[#0f0f0f] border border-[#c9a84c]/20 p-4 rounded">
-          <div className="text-sm text-gray-400">Total Orders</div>
-          <div className="text-xl font-semibold">{totalOrders}</div>
+    <div className="space-y-8">
+      <header className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
+        <div>
+          <h1 className="text-3xl font-bold gold-text">Analytics</h1>
+          <p className="text-gray-400 mt-2 max-w-2xl">
+            A quick snapshot of orders, revenue, products, and visitor behavior. Use this page to track performance and choose top products for promotion.
+          </p>
         </div>
+      </header>
 
-        <div className="bg-[#0f0f0f] border border-[#c9a84c]/20 p-4 rounded">
-          <div className="text-sm text-gray-400">Pending Orders</div>
-          <div className="text-xl font-semibold">{pendingOrders}</div>
-        </div>
-
-        <div className="bg-[#0f0f0f] border border-[#c9a84c]/20 p-4 rounded">
-          <div className="text-sm text-gray-400">Orders This Month</div>
-          <div className="text-xl font-semibold">{monthOrders}</div>
-        </div>
-
-        <div className="bg-[#0f0f0f] border border-[#c9a84c]/20 p-4 rounded">
-          <div className="text-sm text-gray-400">Orders Last Month</div>
-          <div className="text-xl font-semibold">{lastMonthOrders}</div>
-        </div>
-
-        <div className="bg-[#0f0f0f] border border-[#c9a84c]/20 p-4 rounded">
-          <div className="text-sm text-gray-400">Total Products</div>
-          <div className="text-xl font-semibold">{totalProducts}</div>
-        </div>
-
-        <div className="bg-[#0f0f0f] border border-[#c9a84c]/20 p-4 rounded">
-          <div className="text-sm text-gray-400">Featured Products</div>
-          <div className="text-xl font-semibold">{featuredProducts}</div>
-        </div>
-
-        <div className="bg-[#0f0f0f] border border-[#c9a84c]/20 p-4 rounded">
-          <div className="text-sm text-gray-400">Total Revenue</div>
-          <div className="text-xl font-semibold">${totalRevenue.toFixed(2)}</div>
-        </div>
-
-        <div className="bg-[#0f0f0f] border border-[#c9a84c]/20 p-4 rounded">
-          <div className="text-sm text-gray-400">Revenue This Month</div>
-          <div className="text-xl font-semibold">${monthRevenue.toFixed(2)}</div>
-        </div>
-
-        <div className="bg-[#0f0f0f] border border-[#c9a84c]/20 p-4 rounded">
-          <div className="text-sm text-gray-400">Total Views</div>
-          <div className="text-xl font-semibold">{totalViews}</div>
-        </div>
-      </div>
-
-      <section className="mt-8">
-        <h2 className="text-lg font-semibold mb-2">Top Products</h2>
-        <ul className="list-disc ml-6 text-sm text-gray-200">
-          {topProducts.map((p) => (
-            <li key={p._id || p.name} className="mb-1">
-              {p.name} — sold {p.salesCount || 0} — ${p.price?.toFixed(2) || '0.00'}
-            </li>
-          ))}
-        </ul>
-
-        <h3 className="mt-6 text-sm font-medium text-gray-300">Top Viewed Products</h3>
-        <ul className="list-disc ml-6 text-sm text-gray-200">
-          {topViewedAgg.map((t) => (
-            <li key={t.slug} className="mb-1">{t.name || t.slug} — {t.views} views</li>
-          ))}
-        </ul>
+      <section className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        {metricCards.map((card) => (
+          <div key={card.title} className="bg-[#111111] border border-[#c9a84c]/20 rounded-3xl p-6 shadow-[0_0_30px_rgba(0,0,0,0.25)]">
+            <div className="text-sm uppercase tracking-[0.2em] text-gray-500 mb-4">{card.title}</div>
+            <div className="text-3xl font-semibold text-white">{card.value}</div>
+          </div>
+        ))}
       </section>
 
-      <section className="mt-8">
-        <h2 className="text-lg font-semibold mb-2">Recent Orders</h2>
-        <ul className="list-disc ml-6 text-sm text-gray-200">
-          {recentOrders.map((o) => (
-            <li key={o._id} className="mb-1">{o._id} — {o.status} — ${o.total?.toFixed(2) || '0.00'}</li>
-          ))}
-        </ul>
-      </section>
+      <section className="grid grid-cols-1 xl:grid-cols-[1.4fr_1fr] gap-6">
+        <div className="space-y-6">
+          <div className="bg-[#111111] border border-[#c9a84c]/20 rounded-3xl p-6">
+            <div className="flex items-center justify-between mb-4">
+              <h2 className="text-xl font-semibold text-white">Top Products</h2>
+              <span className="text-sm text-gray-500">Best selling and most viewed items</span>
+            </div>
+            <div className="space-y-3">
+              {topProducts.map((p) => (
+                <div key={p._id || p.name} className="flex items-center justify-between gap-4 bg-[#0f0f0f] rounded-2xl p-4">
+                  <div>
+                    <p className="font-medium text-white">{p.name}</p>
+                    <p className="text-sm text-gray-500">Sales: {p.salesCount || 0}</p>
+                  </div>
+                  <div className="text-right">
+                    <p className="font-semibold text-[#c9a84c]">${p.price?.toFixed(2) || '0.00'}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
 
-      <section className="mt-8">
-        <h2 className="text-lg font-semibold mb-2">Top Referrers</h2>
-        <ul className="list-disc ml-6 text-sm text-gray-200">
-          {topReferrers.map((r) => (
-            <li key={r._id} className="mb-1">{r._id} — {r.count}</li>
-          ))}
-        </ul>
+          <div className="bg-[#111111] border border-[#c9a84c]/20 rounded-3xl p-6">
+            <div className="flex items-center justify-between mb-4">
+              <h2 className="text-xl font-semibold text-white">Recent Orders</h2>
+              <span className="text-sm text-gray-500">Latest sales activity</span>
+            </div>
+            <div className="space-y-3">
+              {recentOrders.map((o) => (
+                <div key={o._id} className="flex items-center justify-between gap-4 bg-[#0f0f0f] rounded-2xl p-4 text-sm">
+                  <div>
+                    <p className="font-medium text-white">Order {o._id.slice(-6)}</p>
+                    <p className="text-gray-500">{o.status}</p>
+                  </div>
+                  <div className="text-right text-[#c9a84c]">${o.total?.toFixed(2) || '0.00'}</div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+
+        <div className="space-y-6">
+          <div className="bg-[#111111] border border-[#c9a84c]/20 rounded-3xl p-6">
+            <h2 className="text-xl font-semibold text-white mb-4">Top Viewed Products</h2>
+            <div className="space-y-3">
+              {topViewedAgg.map((t) => (
+                <div key={t.slug} className="flex items-center justify-between gap-4 bg-[#0f0f0f] rounded-2xl p-4 text-sm">
+                  <div>
+                    <p className="font-medium text-white">{t.name || t.slug}</p>
+                  </div>
+                  <div className="text-[#c9a84c]">{t.views} views</div>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          <div className="bg-[#111111] border border-[#c9a84c]/20 rounded-3xl p-6">
+            <h2 className="text-xl font-semibold text-white mb-4">Top Referrers</h2>
+            <ul className="space-y-3 text-sm text-gray-200">
+              {topReferrers.map((r) => (
+                <li key={r._id} className="flex items-center justify-between gap-4 bg-[#0f0f0f] rounded-2xl p-4">
+                  <span>{r._id}</span>
+                  <span className="text-[#c9a84c]">{r.count}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
       </section>
     </div>
   )
