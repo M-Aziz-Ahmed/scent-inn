@@ -49,6 +49,7 @@ const OrderSchema = new mongoose.Schema(
     utmSource: { type: String },
     utmMedium: { type: String },
     utmCampaign: { type: String },
+    affiliateCode: { type: String, default: null }, // referral tracking
   },
   { timestamps: true }
 )
@@ -65,6 +66,13 @@ OrderSchema.pre('save', async function () {
       await mongoose.model('Product').findByIdAndUpdate(item.product, {
         $inc: { salesCount: item.quantity },
       })
+    }
+    // Update affiliate stats if order came via referral
+    if (this.affiliateCode) {
+      await mongoose.model('Affiliate').findOneAndUpdate(
+        { code: this.affiliateCode.toUpperCase() },
+        { $inc: { totalOrders: 1, totalRevenue: this.total } }
+      )
     }
   }
 })

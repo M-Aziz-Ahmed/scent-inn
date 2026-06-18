@@ -1,5 +1,7 @@
 import { Geist } from 'next/font/google'
 import { Analytics } from "@vercel/analytics/next"
+import { Suspense } from 'react'
+import AffiliateTracker from '@/components/AffiliateTracker'
 import './globals.css'
 
 const geist = Geist({
@@ -34,6 +36,9 @@ export default function RootLayout({ children }) {
       <meta name="google-site-verification" content="OxJnDlxKld6R8V8RXE_SqynIk0LcRgZlRtpsCXOIGKc" />
       <body className="min-h-full flex flex-col bg-[#0a0a0a] text-white antialiased">
         {children}
+        <Suspense fallback={null}>
+          <AffiliateTracker />
+        </Suspense>
         <Analytics /> 
       </body>
     </html>

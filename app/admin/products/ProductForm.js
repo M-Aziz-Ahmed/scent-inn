@@ -1,5 +1,6 @@
 'use client'
 import { useState } from 'react'
+import ImageUploader from '@/components/ImageUploader'
 
 const CATEGORIES = ['men', 'women', 'unisex', 'gift-sets', 'oud', 'floral', 'fresh', 'oriental']
 
@@ -13,7 +14,7 @@ export default function ProductForm({ product, onClose }) {
     comparePrice: product?.comparePrice || '',
     category: product?.category || 'men',
     volume: product?.volume || '',
-    images: product?.images?.join('\n') || '',
+    images: product?.images || [],
     inStock: product?.inStock ?? true,
     isFeatured: product?.isFeatured || false,
     isHeroSlide: product?.isHeroSlide || false,
@@ -48,7 +49,7 @@ export default function ProductForm({ product, onClose }) {
       comparePrice: form.comparePrice ? Number(form.comparePrice) : undefined,
       category: form.category,
       volume: form.volume,
-      images: form.images.split('\n').map((s) => s.trim()).filter(Boolean),
+      images: form.images,
       inStock: form.inStock,
       isFeatured: form.isFeatured,
       isHeroSlide: form.isHeroSlide,
@@ -150,10 +151,11 @@ export default function ProductForm({ product, onClose }) {
         </div>
 
         <div className="sm:col-span-2">
-          <label className="block text-xs text-gray-400 mb-1">Image URLs (one per line)</label>
-          <textarea name="images" value={form.images} onChange={handleChange} rows={3}
-            placeholder="https://example.com/image1.jpg&#10;https://example.com/image2.jpg"
-            className="w-full bg-[#1a1a1a] border border-[#c9a84c]/20 rounded-lg px-3 py-2 text-white text-sm focus:outline-none focus:border-[#c9a84c]/60 resize-none" />
+          <label className="block text-xs text-gray-400 mb-1">Product Images</label>
+          <ImageUploader
+            images={form.images}
+            onChange={(urls) => setForm((p) => ({ ...p, images: urls }))}
+          />
         </div>
 
         <div>
@@ -201,13 +203,15 @@ export default function ProductForm({ product, onClose }) {
         ))}
       </div>
 
-      {form.isFeatured && (
+      {(form.isFeatured || form.isHeroSlide) && (
         <div className="grid grid-cols-2 gap-4">
-          <div>
-            <label className="block text-xs text-gray-400 mb-1">Featured Order</label>
-            <input name="featuredOrder" type="number" value={form.featuredOrder} onChange={handleChange} min="0"
-              className="w-full bg-[#1a1a1a] border border-[#c9a84c]/20 rounded-lg px-3 py-2 text-white text-sm focus:outline-none focus:border-[#c9a84c]/60" />
-          </div>
+          {form.isFeatured && (
+            <div>
+              <label className="block text-xs text-gray-400 mb-1">Featured Order</label>
+              <input name="featuredOrder" type="number" value={form.featuredOrder} onChange={handleChange} min="0"
+                className="w-full bg-[#1a1a1a] border border-[#c9a84c]/20 rounded-lg px-3 py-2 text-white text-sm focus:outline-none focus:border-[#c9a84c]/60" />
+            </div>
+          )}
           {form.isHeroSlide && (
             <div>
               <label className="block text-xs text-gray-400 mb-1">Hero Slide Order</label>

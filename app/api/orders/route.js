@@ -1,6 +1,7 @@
 import { connectDB } from '@/lib/db'
 import Order from '@/models/Order'
 import Product from '@/models/Product'
+import Affiliate from '@/models/Affiliate'
 import Settings from '@/models/Settings'
 import { getShippingCost, FREE_SHIPPING_THRESHOLD } from '@/lib/shipping'
 import { getAdminFromRequest } from '@/lib/auth'
@@ -62,6 +63,13 @@ export async function POST(request) {
   const discount = body.discount || 0
   const total = subtotal + shippingCost - discount
 
+  // Validate affiliate code if provided
+  let affiliateCode = null
+  if (body.affiliateCode) {
+    const aff = await Affiliate.findOne({ code: body.affiliateCode.toUpperCase(), isActive: true })
+    if (aff) affiliateCode = aff.code
+  }
+
   const order = await Order.create({
     ...body,
     items,
@@ -69,6 +77,7 @@ export async function POST(request) {
     shippingCost,
     discount,
     total,
+    affiliateCode,
   })
 
   return Response.json({ order, orderNumber: order.orderNumber }, { status: 201 })

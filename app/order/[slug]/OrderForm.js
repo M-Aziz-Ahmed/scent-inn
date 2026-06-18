@@ -2,6 +2,7 @@
 import { useEffect, useMemo, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { getShippingCost } from '@/lib/shipping'
+import { getStoredAffiliateCode } from '@/components/AffiliateTracker'
 
 export default function OrderForm({ product }) {
   const router = useRouter()
@@ -45,6 +46,7 @@ export default function OrderForm({ product }) {
 
     try {
       const shippingCost = getShippingCost(form.city, shippingRates)
+      const affiliateCode = getStoredAffiliateCode()
       const res = await fetch('/api/orders', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -65,6 +67,7 @@ export default function OrderForm({ product }) {
           paymentMethod: form.paymentMethod,
           notes: form.notes,
           shippingCost,
+          affiliateCode,
         }),
       })
 

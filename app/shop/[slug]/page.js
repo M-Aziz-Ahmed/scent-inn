@@ -5,6 +5,7 @@ import Footer from '@/components/Footer'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import ProductViewTracker from './ProductViewTracker'
+import GenerateRefLink from '@/components/GenerateRefLink'
 
 async function getProduct(slug) {
   try {
@@ -162,6 +163,8 @@ export default async function ProductPage({ params }) {
                 <span>🚚 Fast Delivery</span>
                 <span>💳 Cash on Delivery</span>
               </div>
+
+              <GenerateRefLink productSlug={product.slug} />
             </div>
           </div>
         </div>
