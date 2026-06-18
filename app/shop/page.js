@@ -3,6 +3,8 @@ import Product from '@/models/Product'
 import Navbar from '@/components/Navbar'
 import Footer from '@/components/Footer'
 import ProductCard from '@/components/ProductCard'
+
+export const dynamic = 'force-dynamic'
 import ShopFilters from './ShopFilters'
 import Link from 'next/link'
 

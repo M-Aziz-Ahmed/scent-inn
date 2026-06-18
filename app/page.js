@@ -7,6 +7,8 @@ import FeaturedSlider from '@/components/FeaturedSlider'
 import ProductCard from '@/components/ProductCard'
 import Link from 'next/link'
 
+export const dynamic = 'force-dynamic'
+
 export const metadata = {
   title: 'Scent Inn — Luxury Perfumes & Fragrances',
   description:
