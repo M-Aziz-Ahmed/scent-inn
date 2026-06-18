@@ -6,6 +6,7 @@ import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import ProductViewTracker from './ProductViewTracker'
 import GenerateRefLink from '@/components/GenerateRefLink'
+import ProductImageGallery from './ProductImageGallery'
 
 async function getProduct(slug) {
   try {
@@ -54,24 +55,7 @@ export default async function ProductPage({ params }) {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
             {/* Images */}
             <div>
-              <div className="aspect-square rounded-2xl bg-gradient-to-b from-[#1a1a1a] to-[#111] border border-[#c9a84c]/20 overflow-hidden mb-4">
-                {product.images?.[0] ? (
-                  <img src={product.images[0]} alt={product.name} className="w-full h-full object-cover" />
-                ) : (
-                  <div className="w-full h-full flex items-center justify-center">
-                    <span className="text-9xl">🌹</span>
-                  </div>
-                )}
-              </div>
-              {product.images?.length > 1 && (
-                <div className="flex gap-3">
-                  {product.images.slice(1, 4).map((img, i) => (
-                    <div key={i} className="w-20 h-20 rounded-lg overflow-hidden border border-[#c9a84c]/20">
-                      <img src={img} alt={`${product.name} ${i + 2}`} className="w-full h-full object-cover" />
-                    </div>
-                  ))}
-                </div>
-              )}
+              <ProductImageGallery images={product.images} name={product.name} />
             </div>
 
             {/* Details */}

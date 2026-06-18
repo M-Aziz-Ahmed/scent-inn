@@ -14,12 +14,15 @@ export default function ProductCard({ product }) {
             src={product.images[0]}
             alt={product.name}
             className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+            onError={(e) => { e.currentTarget.style.display = 'none'; e.currentTarget.nextSibling.style.display = 'flex' }}
           />
-        ) : (
-          <div className="w-full h-full flex items-center justify-center">
-            <span className="text-6xl">🌹</span>
-          </div>
-        )}
+        ) : null}
+        <div
+          className="w-full h-full flex-col items-center justify-center gap-2 bg-gradient-to-b from-[#1a1a1a] to-[#111]"
+          style={{ display: product.images?.[0] ? 'none' : 'flex' }}
+        >
+          <span className="text-5xl">🌹</span>
+        </div>
         {discount > 0 && (
           <span className="absolute top-3 left-3 bg-red-600 text-white text-xs font-bold px-2 py-1 rounded-full">
             -{discount}%
