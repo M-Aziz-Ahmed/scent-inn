@@ -12,7 +12,7 @@ export async function POST(request) {
       return Response.json({ error: 'Email and password are required' }, { status: 400 })
     }
 
-    const admin = await Admin.findOne({ email: email.toLowerCase(), isActive: true })
+    const admin = await Admin.findOne({ email: email.toLowerCase(), isActive: true, role: { $in: ['admin', 'superadmin'] } })
     if (!admin) {
       return Response.json({ error: 'Invalid credentials' }, { status: 401 })
     }

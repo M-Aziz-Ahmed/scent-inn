@@ -1,10 +1,10 @@
 import { connectDB } from '@/lib/db'
 import Affiliate from '@/models/Affiliate'
 import Order from '@/models/Order'
-import { getAdminFromRequest } from '@/lib/auth'
+import { getAffiliateFromRequest } from '@/lib/auth'
 
 export async function GET(request) {
-  const session = await getAdminFromRequest(request)
+  const session = await getAffiliateFromRequest(request)
   if (!session || !['affiliate', 'admin', 'superadmin'].includes(session.role)) {
     return Response.json({ error: 'Unauthorized' }, { status: 401 })
   }
