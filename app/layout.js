@@ -3,6 +3,7 @@ import { Analytics } from "@vercel/analytics/next"
 import { Suspense } from 'react'
 import Script from 'next/script'
 import AffiliateTracker from '@/components/AffiliateTracker'
+import AdBanner from '@/components/AdBanner'
 import './globals.css'
 
 const geist = Geist({
@@ -40,6 +41,7 @@ export default function RootLayout({ children }) {
       </head>
       <body className="min-h-full flex flex-col bg-[#0a0a0a] text-white antialiased">
         {children}
+        <AdBanner />
         <Suspense fallback={null}>
           <AffiliateTracker />
         </Suspense>
@@ -49,6 +51,7 @@ export default function RootLayout({ children }) {
           src="https://pl29826218.effectivecpmnetwork.com/52/9e/53/529e53ade9ff1f6bfc06c02a370f7135.js"
           strategy="afterInteractive"
         />
+        <Script src="https://quge5.com/88/tag.min.js" data-zone="252100" async data-cfasync="false" />
       </body>
     </html>
   )
