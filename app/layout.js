@@ -1,6 +1,7 @@
 import { Geist } from 'next/font/google'
 import { Analytics } from "@vercel/analytics/next"
 import { Suspense } from 'react'
+import Script from 'next/script'
 import AffiliateTracker from '@/components/AffiliateTracker'
 import './globals.css'
 
@@ -33,13 +34,19 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en" className={`${geist.variable} h-full`}>
-      <meta name="google-site-verification" content="OxJnDlxKld6R8V8RXE_SqynIk0LcRgZlRtpsCXOIGKc" />
+      <head>
+        <meta name="google-site-verification" content="OxJnDlxKld6R8V8RXE_SqynIk0LcRgZlRtpsCXOIGKc" />
+      </head>
       <body className="min-h-full flex flex-col bg-[#0a0a0a] text-white antialiased">
         {children}
         <Suspense fallback={null}>
           <AffiliateTracker />
         </Suspense>
-        <Analytics /> 
+        <Analytics />
+        <Script
+          src="https://pl29826218.effectivecpmnetwork.com/52/9e/53/529e53ade9ff1f6bfc06c02a370f7135.js"
+          strategy="afterInteractive"
+        />
       </body>
     </html>
   )

@@ -39,7 +39,7 @@ async function getData() {
       newArrivals: JSON.parse(JSON.stringify(newArrivals)),
     }
   } catch {
-    return { heroSlides: [], featuredProducts: [], bestSellers: [] }
+    return { heroSlides: [], featuredProducts: [], bestSellers: [], newArrivals: [] }
   }
 }
 
