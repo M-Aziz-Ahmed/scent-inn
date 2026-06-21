@@ -38,6 +38,7 @@ export default function RootLayout({ children }) {
       <head>
         <meta name="google-site-verification" content="OxJnDlxKld6R8V8RXE_SqynIk0LcRgZlRtpsCXOIGKc" />
         <meta name="monetag" content="8ea358354096dee6399a550453c22ee8" />
+        <meta name="google-adsense-account" content="ca-pub-8760416573005949"></meta>
       </head>
       <body className="min-h-full flex flex-col bg-[#0a0a0a] text-white antialiased">
         {children}
