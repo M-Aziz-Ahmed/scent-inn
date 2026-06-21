@@ -55,7 +55,7 @@ export default function RootLayout({ children }) {
           }}
         />
         {/* Monetag tag.min.js */}
-        <Script src="https://quge5.com/88/tag.min.js" data-zone="252100" strategy="afterInteractive" data-cfasync="false" />
+        <Script src="https://quge5.com/88/tag.min.js" data-zone="252100" strategy="beforeInteractive" data-cfasync="false" />
         {/* EffectiveCPM — pop/push unit */}
         <Script
           src="https://pl29826218.effectivecpmnetwork.com/52/9e/53/529e53ade9ff1f6bfc06c02a370f7135.js"
