@@ -54,6 +54,8 @@ export default function RootLayout({ children }) {
           src="https://pl29826218.effectivecpmnetwork.com/52/9e/53/529e53ade9ff1f6bfc06c02a370f7135.js"
           strategy="afterInteractive"
         />
+        <Script>
+          {`(function(s){s.dataset.zone='11180994',s.src='https://nap5k.com/tag.min.js'})([document.documentElement, document.body].filter(Boolean).pop().appendChild(document.createElement('script')))`}</Script>
       </body>
     </html>
   )
