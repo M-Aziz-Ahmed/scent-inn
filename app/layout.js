@@ -36,11 +36,14 @@ export default function RootLayout({ children }) {
     <html lang="en" className={`${geist.variable} h-full`}>
       <head>
         <meta name="google-site-verification" content="OxJnDlxKld6R8V8RXE_SqynIk0LcRgZlRtpsCXOIGKc" />
+        <meta name="monetag" content="8ea358354096dee6399a550453c22ee8"></meta>
       </head>
       <body className="min-h-full flex flex-col bg-[#0a0a0a] text-white antialiased">
         {children}
         {/* Ad banner container — sits just before the footer across all pages */}
-        <div id="container-e0150043b5296aa985aea3be5b687fc8" />
+        <div className='top-20 absolute h-30'>
+          <div id="container-e0150043b5296aa985aea3be5b687fc8" />
+        </div>
         <Suspense fallback={null}>
           <AffiliateTracker />
         </Suspense>
