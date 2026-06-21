@@ -40,22 +40,11 @@ export default function RootLayout({ children }) {
       </head>
       <body className="min-h-full flex flex-col bg-[#0a0a0a] text-white antialiased">
         {children}
-        {/* Ad banner container — sits just before the footer across all pages */}
-        <div className='top-20 absolute h-30'>
-          <div id="container-e0150043b5296aa985aea3be5b687fc8" />
-        </div>
         <Suspense fallback={null}>
           <AffiliateTracker />
         </Suspense>
         <Analytics />
-        {/* EffectiveCPM — banner unit */}
-        <Script
-          async
-          data-cfasync="false"
-          src="https://pl29826312.effectivecpmnetwork.com/e0150043b5296aa985aea3be5b687fc8/invoke.js"
-          strategy="afterInteractive"
-        />
-        {/* EffectiveCPM — pop/push unit */}
+        {/* EffectiveCPM — pop/push unit (no visible container, runs in background) */}
         <Script
           src="https://pl29826218.effectivecpmnetwork.com/52/9e/53/529e53ade9ff1f6bfc06c02a370f7135.js"
           strategy="afterInteractive"

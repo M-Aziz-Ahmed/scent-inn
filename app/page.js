@@ -5,6 +5,7 @@ import Footer from '@/components/Footer'
 import HeroSlider from '@/components/HeroSlider'
 import FeaturedSlider from '@/components/FeaturedSlider'
 import ProductCard from '@/components/ProductCard'
+import AdBanner from '@/components/AdBanner'
 import Link from 'next/link'
 
 export const dynamic = 'force-dynamic'
@@ -81,6 +82,9 @@ export default async function HomePage() {
             </div>
           </div>
         </section>
+
+        {/* Ad Banner — between trust badges and featured products */}
+        <AdBanner />
 
         {/* Featured Products Slider */}
         {featuredProducts.length > 0 && (
