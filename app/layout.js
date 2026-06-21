@@ -36,18 +36,6 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en" className={`${geist.variable} h-full`}>
       <head>
-        <meta name="google-site-verification" content="OxJnDlxKld6R8V8RXE_SqynIk0LcRgZlRtpsCXOIGKc" />
-        <meta name="monetag" content="8ea358354096dee6399a550453c22ee8" />
-        <meta name="google-adsense-account" content="ca-pub-8760416573005949" />
-      </head>
-      <body className="min-h-full flex flex-col bg-[#0a0a0a] text-white antialiased">
-        {children}
-        <AdBanner />
-        <Suspense fallback={null}>
-          <AffiliateTracker />
-        </Suspense>
-        <Analytics />
-
         {/* Monetag — zone 252100 (Multitag/push) */}
         <Script
           id="monetag-252100"
@@ -65,6 +53,17 @@ export default function RootLayout({ children }) {
             __html: `(function(s){s.dataset.zone='11180994',s.src='https://nap5k.com/tag.min.js'})([document.documentElement,document.body].filter(Boolean).pop().appendChild(document.createElement('script')))`,
           }}
         />
+        <meta name="google-site-verification" content="OxJnDlxKld6R8V8RXE_SqynIk0LcRgZlRtpsCXOIGKc" />
+        <meta name="monetag" content="8ea358354096dee6399a550453c22ee8" />
+        <meta name="google-adsense-account" content="ca-pub-8760416573005949" />
+      </head>
+      <body className="min-h-full flex flex-col bg-[#0a0a0a] text-white antialiased">
+        {children}
+        <AdBanner />
+        <Suspense fallback={null}>
+          <AffiliateTracker />
+        </Suspense>
+        <Analytics />
 
         {/* EffectiveCPM — pop/push unit */}
         <Script
