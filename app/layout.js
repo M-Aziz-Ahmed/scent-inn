@@ -47,13 +47,11 @@ export default function RootLayout({ children }) {
         </Suspense>
         <Analytics />
         {/* Monetag Multitag — inline bootstrap */}
-        <Script
-          id="monetag-multitag"
-          strategy="afterInteractive"
-          dangerouslySetInnerHTML={{
-            __html: `(function(d,z,s){s.src='https://'+d+'/401/'+z;try{(document.body||document.documentElement).appendChild(s)}catch(e){}})('gizokraijaw.net',11180835,document.createElement('script'))`,
-          }}
-        />
+        <Script id="multitag-setup" strategy="afterInteractive">
+          {`
+            <script src="https://quge5.com/88/tag.min.js" data-zone="252100" async data-cfasync="false"></script>
+          `}
+        </Script>
         {/* Monetag tag.min.js */}
         <Script src="https://quge5.com/88/tag.min.js" data-zone="252100" strategy="beforeInteractive" data-cfasync="false" />
         {/* EffectiveCPM — pop/push unit */}
