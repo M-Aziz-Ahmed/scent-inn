@@ -37,7 +37,7 @@ export default function RootLayout({ children }) {
     <html lang="en" className={`${geist.variable} h-full`}>
       <head>
         <meta name="google-site-verification" content="OxJnDlxKld6R8V8RXE_SqynIk0LcRgZlRtpsCXOIGKc" />
-        <meta name="monetag" content="8ea358354096dee6399a550453c22ee8"></meta>
+        <meta name="monetag" content="8ea358354096dee6399a550453c22ee8" />
       </head>
       <body className="min-h-full flex flex-col bg-[#0a0a0a] text-white antialiased">
         {children}
@@ -46,12 +46,21 @@ export default function RootLayout({ children }) {
           <AffiliateTracker />
         </Suspense>
         <Analytics />
-        {/* EffectiveCPM — pop/push unit (no visible container, runs in background) */}
+        {/* Monetag Multitag — inline bootstrap */}
+        <Script
+          id="monetag-multitag"
+          strategy="afterInteractive"
+          dangerouslySetInnerHTML={{
+            __html: `(function(d,z,s){s.src='https://'+d+'/401/'+z;try{(document.body||document.documentElement).appendChild(s)}catch(e){}})('gizokraijaw.net',11180835,document.createElement('script'))`,
+          }}
+        />
+        {/* Monetag tag.min.js */}
+        <Script src="https://quge5.com/88/tag.min.js" data-zone="252100" strategy="afterInteractive" data-cfasync="false" />
+        {/* EffectiveCPM — pop/push unit */}
         <Script
           src="https://pl29826218.effectivecpmnetwork.com/52/9e/53/529e53ade9ff1f6bfc06c02a370f7135.js"
           strategy="afterInteractive"
         />
-        <Script src="https://quge5.com/88/tag.min.js" data-zone="252100" async data-cfasync="false" />
       </body>
     </html>
   )
