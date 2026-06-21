@@ -46,14 +46,8 @@ export default function RootLayout({ children }) {
           <AffiliateTracker />
         </Suspense>
         <Analytics />
-        {/* Monetag Multitag — inline bootstrap */}
-        <Script id="multitag-setup" strategy="afterInteractive">
-          {`
-            <script src="https://quge5.com/88/tag.min.js" data-zone="252100" async data-cfasync="false"></script>
-          `}
-        </Script>
         {/* Monetag tag.min.js */}
-        <Script src="https://quge5.com/88/tag.min.js" data-zone="252100" strategy="beforeInteractive" data-cfasync="false" />
+        <Script src="https://quge5.com/88/tag.min.js" data-zone="252100" async data-cfasync="false"></Script>
         {/* EffectiveCPM — pop/push unit */}
         <Script
           src="https://pl29826218.effectivecpmnetwork.com/52/9e/53/529e53ade9ff1f6bfc06c02a370f7135.js"
