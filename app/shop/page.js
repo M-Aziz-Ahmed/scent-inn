@@ -68,11 +68,11 @@ export default async function ShopPage({ searchParams }) {
   return (
     <>
       <Navbar />
-      <main className="min-h-screen">
-        <div className="bg-[#101a14] border-b border-[#c9a84c]/20 py-10">
+      <main className="min-h-screen bg-white">
+        <div className="bg-white border-b border-[#e5e5e5] py-8">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <h1 className="text-4xl font-bold text-white mb-2">Our Collection</h1>
-            <p className="text-gray-400">
+            <h1 className="text-2xl font-semibold text-[#1a1a1a] mb-1">Our Collection</h1>
+            <p className="text-xs text-[#999]">
               {total} piece{total !== 1 ? 's' : ''} available
             </p>
           </div>
@@ -120,12 +120,10 @@ export default async function ShopPage({ searchParams }) {
             </>
           ) : (
             <div className="text-center py-24">
-              <div className="text-6xl mb-4">🔍</div>
-              <h3 className="text-xl font-semibold text-white mb-2">No products found</h3>
-              <p className="text-gray-400 mb-6">Try a different filter or check back later.</p>
-              <Link href="/shop" className="btn-gold px-6 py-3 rounded-full inline-block">
-                View All
-              </Link>
+              <div className="text-5xl mb-4 opacity-20">👗</div>
+              <h3 className="text-base font-medium text-[#1a1a1a] mb-2">No products found</h3>
+              <p className="text-xs text-[#999] mb-6">Try a different filter or check back later.</p>
+              <Link href="/shop" className="text-xs underline text-[#555]">View All</Link>
             </div>
           )}
         </div>

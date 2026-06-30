@@ -16,12 +16,9 @@ const SORTS = [
   { label: 'Price: High to Low', value: 'price_desc' },
 ]
 
-function buildUrl({ category, gender, sort }, overrides = {}) {
-  const p = { category, gender, sort, page: '1', ...overrides }
-  const qs = Object.entries(p)
-    .filter(([, v]) => v)
-    .map(([k, v]) => `${k}=${encodeURIComponent(v)}`)
-    .join('&')
+function buildUrl({ category, gender, sort }) {
+  const p = { category, gender, sort, page: '1' }
+  const qs = Object.entries(p).filter(([, v]) => v).map(([k, v]) => `${k}=${encodeURIComponent(v)}`).join('&')
   return `/shop${qs ? '?' + qs : ''}`
 }
 
@@ -30,16 +27,15 @@ export default function ShopFilters({ currentCategory, currentGender, currentSor
 
   return (
     <div className="space-y-3 mb-8">
-      {/* Gender filter */}
+      {/* Gender */}
       <div className="flex flex-wrap gap-2">
         {GENDERS.map((g) => (
-          <button
-            key={g.value}
+          <button key={g.value}
             onClick={() => router.push(buildUrl({ category: currentCategory, gender: g.value, sort: currentSort }))}
-            className={`px-4 py-2 rounded-full text-sm transition ${
+            className={`text-xs px-4 py-1.5 border transition ${
               currentGender === g.value
-                ? 'bg-[#c9a84c] text-black font-semibold'
-                : 'border border-[#c9a84c]/30 text-gray-300 hover:border-[#c9a84c]'
+                ? 'border-[#1a1a1a] bg-[#1a1a1a] text-white'
+                : 'border-[#e5e5e5] text-[#555] hover:border-[#1a1a1a]'
             }`}
           >
             {g.label}
@@ -47,27 +43,24 @@ export default function ShopFilters({ currentCategory, currentGender, currentSor
         ))}
       </div>
 
-      {/* Category filter — dynamic */}
+      {/* Categories */}
       {categories.length > 0 && (
         <div className="flex flex-wrap gap-2">
           <button
             onClick={() => router.push(buildUrl({ category: '', gender: currentGender, sort: currentSort }))}
-            className={`px-4 py-1.5 rounded-full text-xs transition ${
-              !currentCategory
-                ? 'bg-[#1a3c2e] text-[#c9a84c] border border-[#c9a84c]/40'
-                : 'border border-gray-700 text-gray-500 hover:border-[#c9a84c]/40'
+            className={`text-xs px-4 py-1.5 border transition ${
+              !currentCategory ? 'border-[#1a1a1a] text-[#1a1a1a] font-medium' : 'border-[#e5e5e5] text-[#999] hover:border-[#aaa]'
             }`}
           >
-            All Categories
+            All
           </button>
           {categories.map((cat) => (
-            <button
-              key={cat}
+            <button key={cat}
               onClick={() => router.push(buildUrl({ category: cat, gender: currentGender, sort: currentSort }))}
-              className={`px-4 py-1.5 rounded-full text-xs transition capitalize ${
+              className={`text-xs px-4 py-1.5 border transition capitalize ${
                 currentCategory.toLowerCase() === cat.toLowerCase()
-                  ? 'bg-[#1a3c2e] text-[#c9a84c] border border-[#c9a84c]/40'
-                  : 'border border-gray-700 text-gray-500 hover:border-[#c9a84c]/40'
+                  ? 'border-[#1a1a1a] text-[#1a1a1a] font-medium'
+                  : 'border-[#e5e5e5] text-[#999] hover:border-[#aaa]'
               }`}
             >
               {cat}
@@ -79,13 +72,11 @@ export default function ShopFilters({ currentCategory, currentGender, currentSor
       {/* Sort */}
       <div className="flex justify-end">
         <select
-          className="bg-[#101a14] border border-[#c9a84c]/30 text-gray-300 rounded-lg px-3 py-2 text-sm cursor-pointer"
+          className="border border-[#e5e5e5] text-[#555] text-xs px-3 py-2 bg-white focus:outline-none focus:border-[#1a1a1a]"
           value={currentSort}
           onChange={(e) => router.push(buildUrl({ category: currentCategory, gender: currentGender, sort: e.target.value }))}
         >
-          {SORTS.map((s) => (
-            <option key={s.value} value={s.value}>{s.label}</option>
-          ))}
+          {SORTS.map((s) => <option key={s.value} value={s.value}>{s.label}</option>)}
         </select>
       </div>
     </div>

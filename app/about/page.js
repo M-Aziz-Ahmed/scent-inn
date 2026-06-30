@@ -4,72 +4,67 @@ import Link from 'next/link'
 
 export const metadata = {
   title: 'About Us — Gullkar',
-  description: 'Learn about Gullkar — our story, craftsmanship, and commitment to quality clothing.',
+  description: 'Learn about Gullkar — our story and commitment to quality clothing.',
 }
 
 export default function AboutPage() {
   return (
     <>
       <Navbar />
-      <main>
+      <main className="bg-white">
         {/* Hero */}
-        <section className="bg-linear-to-b from-[#0f2318] to-[#0a0f0d] py-20">
-          <div className="max-w-4xl mx-auto px-4 text-center">
-            <h1 className="text-5xl font-bold text-white mb-4">
-              Our <span className="gold-text">Story</span>
-            </h1>
-            <p className="text-gray-300 text-lg leading-relaxed">
+        <section className="bg-[#f5f5f5] py-20 text-center">
+          <div className="max-w-2xl mx-auto px-4">
+            <p className="text-[11px] uppercase tracking-widest text-[#999] mb-4">Our Story</p>
+            <h1 className="text-4xl font-semibold text-[#1a1a1a] mb-4">Crafted Clothing, Honest Prices</h1>
+            <p className="text-sm text-[#777] leading-relaxed">
               Born from a love of craftsmanship and culture, Gullkar brings you clothing that speaks before you do.
             </p>
           </div>
         </section>
 
         {/* Story */}
-        <section className="py-16">
-          <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+        <section className="py-16 border-b border-[#e5e5e5]">
+          <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
               <div>
-                <h2 className="text-3xl font-bold text-white mb-4">
-                  The Art of <span className="gold-text">Crafted Clothing</span>
-                </h2>
-                <p className="text-gray-400 leading-relaxed mb-4">
-                  At Gullkar, we believe clothing is more than fabric — it's identity, heritage, and confidence woven together. Every piece in our collection is thoughtfully designed to be worn and felt.
+                <h2 className="text-xl font-semibold text-[#1a1a1a] mb-4">The Art of Crafted Clothing</h2>
+                <p className="text-sm text-[#777] leading-relaxed mb-4">
+                  At Gullkar, we believe clothing is more than fabric — it&apos;s identity, heritage, and confidence woven together.
                 </p>
-                <p className="text-gray-400 leading-relaxed mb-4">
-                  We source premium fabrics and work with skilled artisans to create pieces that balance modern style with timeless quality — from crisp kurtas to comfortable casuals.
+                <p className="text-sm text-[#777] leading-relaxed mb-4">
+                  We source premium fabrics and work with skilled artisans to create pieces that balance modern style with timeless quality.
                 </p>
-                <p className="text-gray-400 leading-relaxed">
-                  Our commitment is simple: deliver quality clothing at honest prices, straight to your door across Pakistan.
+                <p className="text-sm text-[#777] leading-relaxed">
+                  Our commitment: quality clothing at honest prices, straight to your door across Pakistan.
                 </p>
               </div>
-              <div className="card-dark rounded-2xl p-8 text-center">
-                <div className="text-7xl mb-4">🧵</div>
-                <h3 className="text-xl font-semibold text-[#c9a84c] mb-2">Crafted with Care</h3>
-                <p className="text-gray-400 text-sm">Every stitch, every cut — made to last and made to impress.</p>
+              <div className="bg-[#f5f5f5] p-8 text-center">
+                <div className="text-6xl mb-4">🧵</div>
+                <h3 className="text-sm font-semibold text-[#1a1a1a] mb-1">Crafted with Care</h3>
+                <p className="text-xs text-[#999]">Every stitch, every cut — made to last.</p>
               </div>
             </div>
           </div>
         </section>
 
         {/* Values */}
-        <section className="py-16 bg-[#0d1510]">
-          <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
-            <h2 className="text-3xl font-bold text-white text-center mb-10">
-              Why Choose <span className="gold-text">Gullkar</span>
-            </h2>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <section className="py-16 border-b border-[#e5e5e5]">
+          <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h2 className="text-lg font-semibold text-[#1a1a1a] text-center mb-10">Why Choose Gullkar</h2>
+            <div className="grid grid-cols-2 md:grid-cols-3 gap-6">
               {[
-                { icon: '✅', title: '100% Original', desc: 'Every piece is genuine — sourced from quality-verified suppliers.' },
-                { icon: '🚚', title: 'Fast Delivery', desc: 'We deliver across Pakistan within 3-5 business days with safe packaging.' },
-                { icon: '💳', title: 'Cash on Delivery', desc: 'Pay when you receive your order. No advance payment required.' },
-                { icon: '🔄', title: 'Easy Returns', desc: '7-day hassle-free return policy if you\'re not satisfied.' },
-                { icon: '📏', title: 'Size Guide', desc: 'Detailed size charts to help you find your perfect fit every time.' },
-                { icon: '📞', title: '24/7 Support', desc: 'Our team is always ready to help you with your order.' },
+                { icon: '✓', title: '100% Original', desc: 'Sourced from quality-verified suppliers.' },
+                { icon: '🚚', title: 'Fast Delivery', desc: 'Across Pakistan in 3–5 business days.' },
+                { icon: '💳', title: 'Cash on Delivery', desc: 'Pay when you receive your order.' },
+                { icon: '↩', title: 'Easy Returns', desc: '7-day hassle-free return policy.' },
+                { icon: '📏', title: 'Size Guide', desc: 'Detailed charts for your perfect fit.' },
+                { icon: '📞', title: '24/7 Support', desc: 'Always here to help with your order.' },
               ].map((item) => (
-                <div key={item.title} className="card-dark rounded-xl p-6">
-                  <div className="text-3xl mb-3">{item.icon}</div>
-                  <h3 className="font-semibold text-white mb-2">{item.title}</h3>
-                  <p className="text-gray-400 text-sm">{item.desc}</p>
+                <div key={item.title} className="border border-[#e5e5e5] p-5">
+                  <div className="text-2xl mb-2">{item.icon}</div>
+                  <h3 className="text-sm font-medium text-[#1a1a1a] mb-1">{item.title}</h3>
+                  <p className="text-xs text-[#999]">{item.desc}</p>
                 </div>
               ))}
             </div>
@@ -77,14 +72,12 @@ export default function AboutPage() {
         </section>
 
         {/* CTA */}
-        <section className="py-16 text-center">
-          <div className="max-w-md mx-auto px-4">
-            <h2 className="text-3xl font-bold text-white mb-4">Ready to Wear Gullkar?</h2>
-            <p className="text-gray-400 mb-6">Explore our collection and find your perfect fit.</p>
-            <Link href="/shop" className="btn-gold px-8 py-4 rounded-full text-lg inline-block">
-              Shop Now
-            </Link>
-          </div>
+        <section className="py-16 text-center bg-[#f5f5f5]">
+          <p className="text-[11px] uppercase tracking-widest text-[#999] mb-4">Ready to shop?</p>
+          <h2 className="text-2xl font-semibold text-[#1a1a1a] mb-6">Explore the Collection</h2>
+          <Link href="/shop" className="inline-block bg-[#1a1a1a] text-white text-sm px-8 py-3 hover:bg-[#333] transition">
+            Shop Now
+          </Link>
         </section>
       </main>
       <Footer />

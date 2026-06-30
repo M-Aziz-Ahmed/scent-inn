@@ -1,6 +1,7 @@
 'use client'
-
 import { useState } from 'react'
+
+const INPUT = 'w-full border border-[#e5e5e5] px-3 py-2.5 text-sm text-[#1a1a1a] placeholder-[#bbb] focus:outline-none focus:border-[#1a1a1a] transition bg-white'
 
 export default function ContactForm() {
   const [name, setName] = useState('')
@@ -8,93 +9,56 @@ export default function ContactForm() {
   const [message, setMessage] = useState('')
   const [status, setStatus] = useState(null)
   const [error, setError] = useState(null)
-  const [isSubmitting, setIsSubmitting] = useState(false)
+  const [submitting, setSubmitting] = useState(false)
 
-  async function handleSubmit(event) {
-    event.preventDefault()
+  async function handleSubmit(e) {
+    e.preventDefault()
     setError(null)
     setStatus(null)
-
     if (!name.trim() || !contact.trim() || !message.trim()) {
-      setError('Please fill in all fields before submitting.')
+      setError('Please fill in all fields.')
       return
     }
-
-    setIsSubmitting(true)
-
+    setSubmitting(true)
     try {
-      const response = await fetch('/api/contact', {
+      const res = await fetch('/api/contact', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ name: name.trim(), contact: contact.trim(), message: message.trim() }),
       })
-
-      const result = await response.json()
-      if (!response.ok) {
-        throw new Error(result.error || 'Unable to send your message.')
-      }
-
-      setStatus('Your message has been sent! We will get back to you soon.')
-      setName('')
-      setContact('')
-      setMessage('')
+      const data = await res.json()
+      if (!res.ok) throw new Error(data.error || 'Unable to send message.')
+      setStatus('Message sent! We\'ll get back to you soon.')
+      setName(''); setContact(''); setMessage('')
     } catch (err) {
       setError(err.message)
     } finally {
-      setIsSubmitting(false)
+      setSubmitting(false)
     }
   }
 
   return (
-    <div className="card-dark rounded-[1.5rem] p-5 sm:p-6">
-      <form className="space-y-5" onSubmit={handleSubmit}>
-        <div>
-          <label className="block text-sm text-gray-400 mb-2">Name</label>
-          <input
-            type="text"
-            value={name}
-            onChange={(event) => setName(event.target.value)}
-            placeholder="Your name"
-            className="w-full bg-[#111] border border-[#c9a84c]/20 rounded-2xl px-4 py-3 text-white placeholder-gray-500 focus:outline-none focus:border-[#c9a84c]/60 text-sm transition"
-          />
-        </div>
-
-        <div>
-          <label className="block text-sm text-gray-400 mb-2">Phone or Email</label>
-          <input
-            type="text"
-            value={contact}
-            onChange={(event) => setContact(event.target.value)}
-            placeholder="Your phone number or email"
-            className="w-full bg-[#111] border border-[#c9a84c]/20 rounded-2xl px-4 py-3 text-white placeholder-gray-500 focus:outline-none focus:border-[#c9a84c]/60 text-sm transition"
-          />
-        </div>
-
-        <div>
-          <label className="block text-sm text-gray-400 mb-2">Message</label>
-          <textarea
-            rows={5}
-            value={message}
-            onChange={(event) => setMessage(event.target.value)}
-            placeholder="Tell us how we can help you"
-            className="w-full bg-[#111] border border-[#c9a84c]/20 rounded-2xl px-4 py-3 text-white placeholder-gray-500 focus:outline-none focus:border-[#c9a84c]/60 text-sm transition resize-none min-h-[160px]"
-          />
-        </div>
-
-        <div className="grid gap-3 sm:grid-cols-[1fr_auto] items-center">
-          <button
-            type="submit"
-            className="w-full sm:w-auto btn-gold px-6 py-3 rounded-2xl font-semibold disabled:opacity-60"
-            disabled={isSubmitting}
-          >
-            {isSubmitting ? 'Sending...' : 'Send Message'}
-          </button>
-          <p className="text-sm text-gray-500">We usually reply within 24 hours.</p>
-        </div>
-
-        {error && <p className="text-sm text-red-400">{error}</p>}
-        {status && <p className="text-sm text-green-400">{status}</p>}
-      </form>
-    </div>
+    <form className="space-y-4" onSubmit={handleSubmit}>
+      <div>
+        <label className="block text-xs text-[#555] mb-1">Name</label>
+        <input type="text" value={name} onChange={(e) => setName(e.target.value)} placeholder="Your name" className={INPUT} />
+      </div>
+      <div>
+        <label className="block text-xs text-[#555] mb-1">Phone or Email</label>
+        <input type="text" value={contact} onChange={(e) => setContact(e.target.value)} placeholder="0300-0000000 or email" className={INPUT} />
+      </div>
+      <div>
+        <label className="block text-xs text-[#555] mb-1">Message</label>
+        <textarea rows={5} value={message} onChange={(e) => setMessage(e.target.value)}
+          placeholder="How can we help?" className={`${INPUT} resize-none`} />
+      </div>
+      {error && <p className="text-xs text-red-500">{error}</p>}
+      {status && <p className="text-xs text-green-600">{status}</p>}
+      <button type="submit" disabled={submitting}
+        className="w-full bg-[#1a1a1a] text-white text-sm py-3 hover:bg-[#333] transition disabled:opacity-50">
+        {submitting ? 'Sending…' : 'Send Message'}
+      </button>
+      <p className="text-[11px] text-[#bbb]">We usually reply within 24 hours.</p>
+    </form>
   )
 }

@@ -4,6 +4,8 @@ import { useRouter } from 'next/navigation'
 import { getShippingCost } from '@/lib/shipping'
 import { getStoredAffiliateCode } from '@/components/AffiliateTracker'
 
+const INPUT = 'w-full border border-[#e5e5e5] px-3 py-2.5 text-sm text-[#1a1a1a] placeholder-[#bbb] focus:outline-none focus:border-[#1a1a1a] transition bg-white'
+
 export default function OrderForm({ product }) {
   const router = useRouter()
   const [qty, setQty] = useState(1)
@@ -11,69 +13,44 @@ export default function OrderForm({ product }) {
   const [error, setError] = useState('')
   const [shippingRates, setShippingRates] = useState(null)
   const [form, setForm] = useState({
-    name: '',
-    email: '',
-    phone: '',
-    street: '',
-    city: '',
-    state: '',
-    postalCode: '',
-    country: 'Pakistan',
-    paymentMethod: 'cod',
-    notes: '',
+    name: '', email: '', phone: '', street: '', city: '', state: '',
+    postalCode: '', country: 'Pakistan', paymentMethod: 'cod', notes: '',
   })
 
   const total = product.price * qty
-
   const cityOptions = useMemo(
-    () => shippingRates ? Object.keys(shippingRates).filter((city) => city !== 'default') : [],
+    () => shippingRates ? Object.keys(shippingRates).filter((c) => c !== 'default') : [],
     [shippingRates]
   )
+  const formatCity = (c) => c.replace(/-/g, ' ').replace(/\b\w/g, (ch) => ch.toUpperCase())
+  const handleChange = (e) => setForm((p) => ({ ...p, [e.target.name]: e.target.value }))
+  const shippingCost = useMemo(() => getShippingCost(form.city, shippingRates), [form.city, shippingRates])
+  const orderTotal = total + shippingCost
 
-  const formatCityLabel = (city) =>
-    city
-      .replace(/-/g, ' ')
-      .replace(/\b\w/g, (char) => char.toUpperCase())
-
-  const handleChange = (e) => {
-    setForm((prev) => ({ ...prev, [e.target.name]: e.target.value }))
-  }
+  useEffect(() => {
+    fetch('/api/shipping').then((r) => r.json()).then((d) => setShippingRates(d.rates || null)).catch(() => {})
+  }, [])
 
   const handleSubmit = async (e) => {
     e.preventDefault()
     setLoading(true)
     setError('')
-
     try {
-      const shippingCost = getShippingCost(form.city, shippingRates)
-      const affiliateCode = getStoredAffiliateCode()
       const res = await fetch('/api/orders', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          customer: {
-            name: form.name,
-            email: form.email,
-            phone: form.phone,
-          },
-          shippingAddress: {
-            street: form.street,
-            city: form.city,
-            state: form.state,
-            postalCode: form.postalCode,
-            country: form.country,
-          },
+          customer: { name: form.name, email: form.email, phone: form.phone },
+          shippingAddress: { street: form.street, city: form.city, state: form.state, postalCode: form.postalCode, country: form.country },
           items: [{ product: product._id, quantity: qty }],
           paymentMethod: form.paymentMethod,
           notes: form.notes,
-          shippingCost,
-          affiliateCode,
+          shippingCost: getShippingCost(form.city, shippingRates),
+          affiliateCode: getStoredAffiliateCode(),
         }),
       })
-
       const data = await res.json()
       if (!res.ok) throw new Error(data.error || 'Failed to place order')
-
       router.push(`/order/success?order=${data.orderNumber}`)
     } catch (err) {
       setError(err.message)
@@ -82,203 +59,93 @@ export default function OrderForm({ product }) {
     }
   }
 
-  useEffect(() => {
-    const fetchRates = async () => {
-      try {
-        const res = await fetch('/api/shipping')
-        const data = await res.json()
-        setShippingRates(data.rates || null)
-      } catch {
-        setShippingRates(null)
-      }
-    }
-    fetchRates()
-  }, [])
-
-  const shippingCost = useMemo(() => getShippingCost(form.city, shippingRates), [form.city, shippingRates])
-  const orderTotal = total + shippingCost
-
   return (
-    <form onSubmit={handleSubmit} className="card-dark rounded-2xl p-6 space-y-5">
-      <h2 className="text-xl font-semibold text-[#c9a84c]">Your Details</h2>
+    <form onSubmit={handleSubmit} className="space-y-4">
+      <h2 className="text-sm font-semibold text-[#1a1a1a] uppercase tracking-wider mb-2">Your Details</h2>
 
-      {error && (
-        <div className="bg-red-900/30 border border-red-500/50 text-red-300 rounded-lg p-3 text-sm">
-          {error}
-        </div>
-      )}
+      {error && <div className="border border-red-300 bg-red-50 text-red-600 p-3 text-xs">{error}</div>}
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+      <div className="grid grid-cols-2 gap-3">
         <div>
-          <label className="block text-sm text-gray-400 mb-1">Full Name *</label>
-          <input
-            name="name"
-            value={form.name}
-            onChange={handleChange}
-            required
-            placeholder="Your full name"
-            className="w-full bg-[#1a1a1a] border border-[#c9a84c]/20 rounded-lg px-3 py-2.5 text-white placeholder-gray-600 focus:outline-none focus:border-[#c9a84c]/60 text-sm"
-          />
+          <label className="block text-xs text-[#555] mb-1">Full Name *</label>
+          <input name="name" value={form.name} onChange={handleChange} required placeholder="Your name" className={INPUT} />
         </div>
         <div>
-          <label className="block text-sm text-gray-400 mb-1">Phone *</label>
-          <input
-            name="phone"
-            value={form.phone}
-            onChange={handleChange}
-            required
-            placeholder="03XX-XXXXXXX"
-            className="w-full bg-[#1a1a1a] border border-[#c9a84c]/20 rounded-lg px-3 py-2.5 text-white placeholder-gray-600 focus:outline-none focus:border-[#c9a84c]/60 text-sm"
-          />
+          <label className="block text-xs text-[#555] mb-1">Phone *</label>
+          <input name="phone" value={form.phone} onChange={handleChange} required placeholder="03XX-XXXXXXX" className={INPUT} />
         </div>
       </div>
 
       <div>
-        <label className="block text-sm text-gray-400 mb-1">Email</label>
-        <input
-          name="email"
-          type="email"
-          value={form.email}
-          onChange={handleChange}
-          placeholder="your@email.com (optional)"
-          className="w-full bg-[#1a1a1a] border border-[#c9a84c]/20 rounded-lg px-3 py-2.5 text-white placeholder-gray-600 focus:outline-none focus:border-[#c9a84c]/60 text-sm"
-        />
+        <label className="block text-xs text-[#555] mb-1">Email</label>
+        <input name="email" type="email" value={form.email} onChange={handleChange} placeholder="your@email.com (optional)" className={INPUT} />
       </div>
 
       <div>
-        <label className="block text-sm text-gray-400 mb-1">Street Address *</label>
-        <input
-          name="street"
-          value={form.street}
-          onChange={handleChange}
-          required
-          placeholder="House #, Street, Area"
-          className="w-full bg-[#1a1a1a] border border-[#c9a84c]/20 rounded-lg px-3 py-2.5 text-white placeholder-gray-600 focus:outline-none focus:border-[#c9a84c]/60 text-sm"
-        />
+        <label className="block text-xs text-[#555] mb-1">Street Address *</label>
+        <input name="street" value={form.street} onChange={handleChange} required placeholder="House #, Street, Area" className={INPUT} />
       </div>
 
-      <div className="grid grid-cols-2 gap-4">
+      <div className="grid grid-cols-2 gap-3">
         <div>
-          <label className="block text-sm text-gray-400 mb-1">City *</label>
+          <label className="block text-xs text-[#555] mb-1">City *</label>
           {shippingRates && cityOptions.length > 0 ? (
-            <>
-              <select
-                name="city"
-                value={form.city}
-                onChange={handleChange}
-                required
-                className="w-full bg-[#1a1a1a] border border-[#c9a84c]/20 rounded-lg px-3 py-2.5 text-white focus:outline-none focus:border-[#c9a84c]/60 text-sm"
-              >
-                <option value="">Select your city</option>
-                {cityOptions.map((city) => (
-                  <option key={city} value={city}>
-                    {formatCityLabel(city)}
-                  </option>
-                ))}
-              </select>
-              <p className="text-xs text-gray-400 mt-2">
-                Choose your delivery city from the list configured in admin.
-              </p>
-            </>
+            <select name="city" value={form.city} onChange={handleChange} required className={INPUT}>
+              <option value="">Select city</option>
+              {cityOptions.map((c) => <option key={c} value={c}>{formatCity(c)}</option>)}
+            </select>
           ) : (
-            <input
-              name="city"
-              value={form.city}
-              onChange={handleChange}
-              required
-              placeholder="Karachi"
-              className="w-full bg-[#1a1a1a] border border-[#c9a84c]/20 rounded-lg px-3 py-2.5 text-white placeholder-gray-600 focus:outline-none focus:border-[#c9a84c]/60 text-sm"
-            />
+            <input name="city" value={form.city} onChange={handleChange} required placeholder="Karachi" className={INPUT} />
           )}
           {form.city && shippingRates && (
-            <p className="text-xs text-gray-400 mt-2">
-              Shipping fee: <span className="text-[#c9a84c]">PKR {shippingCost?.toLocaleString()}</span>
-            </p>
+            <p className="text-xs text-[#999] mt-1">Shipping: PKR {shippingCost?.toLocaleString()}</p>
           )}
         </div>
         <div>
-          <label className="block text-sm text-gray-400 mb-1">Province *</label>
-          <select
-            name="state"
-            value={form.state}
-            onChange={handleChange}
-            required
-            className="w-full bg-[#1a1a1a] border border-[#c9a84c]/20 rounded-lg px-3 py-2.5 text-white focus:outline-none focus:border-[#c9a84c]/60 text-sm"
-          >
+          <label className="block text-xs text-[#555] mb-1">Province *</label>
+          <select name="state" value={form.state} onChange={handleChange} required className={INPUT}>
             <option value="">Select</option>
-            <option>Punjab</option>
-            <option>Sindh</option>
-            <option>KPK</option>
-            <option>Balochistan</option>
-            <option>Islamabad</option>
-            <option>AJK</option>
-            <option>Gilgit-Baltistan</option>
+            {['Punjab','Sindh','KPK','Balochistan','Islamabad','AJK','Gilgit-Baltistan'].map((p) => (
+              <option key={p}>{p}</option>
+            ))}
           </select>
         </div>
       </div>
 
       <div>
-        <label className="block text-sm text-gray-400 mb-1">Postal Code</label>
-        <input
-          name="postalCode"
-          value={form.postalCode}
-          onChange={handleChange}
-          placeholder="75500"
-          className="w-full bg-[#1a1a1a] border border-[#c9a84c]/20 rounded-lg px-3 py-2.5 text-white placeholder-gray-600 focus:outline-none focus:border-[#c9a84c]/60 text-sm"
-        />
+        <label className="block text-xs text-[#555] mb-1">Postal Code</label>
+        <input name="postalCode" value={form.postalCode} onChange={handleChange} placeholder="75500" className={INPUT} />
       </div>
 
       {/* Quantity */}
       <div>
-        <label className="block text-sm text-gray-400 mb-2">Quantity</label>
+        <label className="block text-xs text-[#555] mb-2">Quantity</label>
         <div className="flex items-center gap-3">
-          <button
-            type="button"
-            onClick={() => setQty((q) => Math.max(1, q - 1))}
-            className="w-9 h-9 rounded-full border border-[#c9a84c]/40 text-[#c9a84c] hover:bg-[#c9a84c]/10 transition flex items-center justify-center text-lg"
-          >
-            −
-          </button>
-          <span className="text-white font-semibold w-8 text-center">{qty}</span>
-          <button
-            type="button"
-            onClick={() => setQty((q) => q + 1)}
-            className="w-9 h-9 rounded-full border border-[#c9a84c]/40 text-[#c9a84c] hover:bg-[#c9a84c]/10 transition flex items-center justify-center text-lg"
-          >
-            +
-          </button>
-          <span className="text-gray-400 text-sm ml-2">
-            Total: <span className="text-[#c9a84c] font-bold">PKR {total.toLocaleString()}</span>
-          </span>
+          <button type="button" onClick={() => setQty((q) => Math.max(1, q - 1))}
+            className="w-8 h-8 border border-[#e5e5e5] text-[#1a1a1a] hover:border-[#1a1a1a] transition flex items-center justify-center">−</button>
+          <span className="text-sm font-medium text-[#1a1a1a] w-6 text-center">{qty}</span>
+          <button type="button" onClick={() => setQty((q) => q + 1)}
+            className="w-8 h-8 border border-[#e5e5e5] text-[#1a1a1a] hover:border-[#1a1a1a] transition flex items-center justify-center">+</button>
+          <span className="text-xs text-[#999] ml-1">Total: <span className="text-[#1a1a1a] font-medium">PKR {total.toLocaleString()}</span></span>
         </div>
       </div>
 
       {/* Payment */}
       <div>
-        <label className="block text-sm text-gray-400 mb-2">Payment Method</label>
+        <label className="block text-xs text-[#555] mb-2">Payment Method</label>
         <div className="grid grid-cols-2 gap-2">
           {[
-            { value: 'cod', label: '💵 Cash on Delivery' },
-            { value: 'easypaisa', label: '📱 EasyPaisa' },
-            { value: 'jazzcash', label: '📱 JazzCash' },
-            { value: 'bank_transfer', label: '🏦 Bank Transfer' },
+            { value: 'cod', label: 'Cash on Delivery' },
+            { value: 'easypaisa', label: 'EasyPaisa' },
+            { value: 'jazzcash', label: 'JazzCash' },
+            { value: 'bank_transfer', label: 'Bank Transfer' },
           ].map((pm) => (
-            <label
-              key={pm.value}
-              className={`flex items-center gap-2 p-3 rounded-lg border cursor-pointer transition text-sm ${
-                form.paymentMethod === pm.value
-                  ? 'border-[#c9a84c] bg-[#c9a84c]/10 text-white'
-                  : 'border-[#c9a84c]/20 text-gray-400 hover:border-[#c9a84c]/40'
-              }`}
-            >
-              <input
-                type="radio"
-                name="paymentMethod"
-                value={pm.value}
-                checked={form.paymentMethod === pm.value}
-                onChange={handleChange}
-                className="sr-only"
-              />
+            <label key={pm.value}
+              className={`flex items-center gap-2 p-2.5 border text-xs cursor-pointer transition ${
+                form.paymentMethod === pm.value ? 'border-[#1a1a1a] text-[#1a1a1a] font-medium' : 'border-[#e5e5e5] text-[#555]'
+              }`}>
+              <input type="radio" name="paymentMethod" value={pm.value} checked={form.paymentMethod === pm.value}
+                onChange={handleChange} className="sr-only" />
               {pm.label}
             </label>
           ))}
@@ -286,28 +153,17 @@ export default function OrderForm({ product }) {
       </div>
 
       <div>
-        <label className="block text-sm text-gray-400 mb-1">Order Notes (optional)</label>
-        <textarea
-          name="notes"
-          value={form.notes}
-          onChange={handleChange}
-          rows={2}
-          placeholder="Any special instructions..."
-          className="w-full bg-[#1a1a1a] border border-[#c9a84c]/20 rounded-lg px-3 py-2.5 text-white placeholder-gray-600 focus:outline-none focus:border-[#c9a84c]/60 text-sm resize-none"
-        />
+        <label className="block text-xs text-[#555] mb-1">Order Notes (optional)</label>
+        <textarea name="notes" value={form.notes} onChange={handleChange} rows={2}
+          placeholder="Special instructions, size preferences..." className={`${INPUT} resize-none`} />
       </div>
 
-      <button
-        type="submit"
-        disabled={loading}
-        className="w-full btn-gold py-4 rounded-full text-lg font-bold disabled:opacity-60 disabled:cursor-not-allowed"
-      >
-        {loading ? 'Placing Order...' : `Place Order — PKR ${orderTotal.toLocaleString()}`}
+      <button type="submit" disabled={loading}
+        className="w-full bg-[#1a1a1a] text-white text-sm font-medium py-4 hover:bg-[#333] transition disabled:opacity-50 disabled:cursor-not-allowed">
+        {loading ? 'Placing Order…' : `Place Order — PKR ${orderTotal.toLocaleString()}`}
       </button>
 
-      <p className="text-center text-xs text-gray-500">
-        By placing an order you agree to our terms and conditions.
-      </p>
+      <p className="text-center text-[11px] text-[#bbb]">By placing an order you agree to our terms and conditions.</p>
     </form>
   )
 }

@@ -4,6 +4,7 @@ import { Suspense } from 'react'
 import Script from 'next/script'
 import AffiliateTracker from '@/components/AffiliateTracker'
 import AdBanner from '@/components/AdBanner'
+import { CartProvider } from '@/lib/cartContext'
 import './globals.css'
 
 const geist = Geist({
@@ -37,12 +38,14 @@ export default function RootLayout({ children }) {
         {/* <meta name="monetag" content="8ea358354096dee6399a550453c22ee8" /> */}
         <meta name="google-adsense-account" content="ca-pub-8760416573005949" />
       </head>
-      <body className="min-h-full flex flex-col bg-[#0a0f0d] text-white antialiased">
-        {children}
-        {/* <AdBanner /> */}
-        <Suspense fallback={null}>
-          <AffiliateTracker />
-        </Suspense>
+      <body className="min-h-full flex flex-col bg-white text-[#1a1a1a] antialiased">
+        <CartProvider>
+          {children}
+          <AdBanner />
+          <Suspense fallback={null}>
+            <AffiliateTracker />
+          </Suspense>
+        </CartProvider>
         <Analytics />
         {/* Monetag — zone 252100 */}
         {/* <Script

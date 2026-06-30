@@ -9,41 +9,29 @@ export default async function OrderSuccessPage({ searchParams }) {
   return (
     <>
       <Navbar />
-      <main className="min-h-screen flex items-center justify-center py-20">
+      <main className="min-h-screen bg-white flex items-center justify-center py-20">
         <div className="max-w-md mx-auto px-4 text-center">
-          <div className="card-dark rounded-3xl p-10">
-            <div className="text-7xl mb-6">🎉</div>
-            <h1 className="text-3xl font-bold text-white mb-3">Order Placed!</h1>
+          <div className="border border-[#e5e5e5] p-10">
+            <div className="text-5xl mb-6">✓</div>
+            <h1 className="text-2xl font-semibold text-[#1a1a1a] mb-2">Order Placed!</h1>
             {orderNumber && (
-              <p className="text-[#c9a84c] font-semibold text-lg mb-3">
-                Order #{orderNumber}
-              </p>
+              <p className="text-sm text-[#555] mb-3">Order {orderNumber}</p>
             )}
-            <p className="text-gray-400 mb-8 leading-relaxed">
-              Thank you for your order! We'll confirm it shortly and deliver within 3-5 business days.
-              Our team will contact you on the provided phone number.
+            <p className="text-sm text-[#777] mb-8 leading-relaxed">
+              Thank you! We&apos;ll confirm your order shortly and deliver within 3–5 business days.
             </p>
 
-            <div className="space-y-3 text-sm text-gray-400 mb-8 text-left">
-              <div className="flex items-center gap-3">
-                <span className="text-[#c9a84c] text-lg">📞</span>
-                <span>We'll call to confirm your order</span>
-              </div>
-              <div className="flex items-center gap-3">
-                <span className="text-[#c9a84c] text-lg">📦</span>
-                <span>Packed and dispatched within 24 hours</span>
-              </div>
-              <div className="flex items-center gap-3">
-                <span className="text-[#c9a84c] text-lg">🚚</span>
-                <span>Delivered in 3-5 business days</span>
-              </div>
+            <div className="space-y-2 text-xs text-[#999] mb-8 text-left border-t border-[#e5e5e5] pt-6">
+              <p>📞 We&apos;ll call to confirm</p>
+              <p>📦 Dispatched within 24 hours</p>
+              <p>🚚 Delivered in 3–5 business days</p>
             </div>
 
             <div className="flex flex-col gap-3">
-              <Link href="/shop" className="btn-gold py-3 rounded-full font-semibold">
+              <Link href="/shop" className="block bg-[#1a1a1a] text-white text-sm py-3 hover:bg-[#333] transition">
                 Continue Shopping
               </Link>
-              <Link href="/" className="btn-outline-gold py-3 rounded-full">
+              <Link href="/" className="block border border-[#e5e5e5] text-[#555] text-sm py-3 hover:border-[#1a1a1a] transition">
                 Back to Home
               </Link>
             </div>

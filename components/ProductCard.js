@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import AddToCart from './AddToCart'
 
 export default function ProductCard({ product }) {
   const discount = product.comparePrice
@@ -6,110 +7,66 @@ export default function ProductCard({ product }) {
     : 0
 
   return (
-    <div className="card-dark rounded-2xl overflow-hidden group transition-all duration-300 hover:shadow-[0_0_30px_rgba(201,168,76,0.15)]">
+    <div className="group">
       {/* Image */}
-      <div className="relative aspect-3/4 bg-linear-to-b from-[#182218] to-[#101a14] overflow-hidden">
+      <div className="relative aspect-3/4 bg-[#f5f5f5] overflow-hidden mb-3">
         {product.images?.[0] ? (
           <img
             src={product.images[0]}
             alt={product.name}
-            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+            className="w-full h-full object-cover group-hover:scale-103 transition-transform duration-500"
           />
         ) : (
           <div className="w-full h-full flex items-center justify-center">
-            <span className="text-5xl">👗</span>
+            <span className="text-5xl opacity-20">👗</span>
           </div>
         )}
 
         {discount > 0 && (
-          <span className="absolute top-3 left-3 bg-red-600 text-white text-xs font-bold px-2 py-1 rounded-full">
+          <span className="absolute top-2 left-2 bg-[#1a1a1a] text-white text-[10px] font-semibold px-2 py-0.5">
             -{discount}%
           </span>
         )}
-        {product.isFeatured && (
-          <span className="absolute top-3 right-3 bg-[#c9a84c] text-black text-xs font-bold px-2 py-1 rounded-full">
-            Featured
-          </span>
-        )}
         {!product.inStock && (
-          <div className="absolute inset-0 bg-black/60 flex items-center justify-center">
-            <span className="text-white font-semibold text-sm">Out of Stock</span>
+          <div className="absolute inset-0 bg-white/60 flex items-center justify-center">
+            <span className="text-[#555] text-xs font-medium tracking-wider uppercase">Sold Out</span>
           </div>
         )}
+
+        {/* Hover actions */}
+        <div className="absolute bottom-0 inset-x-0 translate-y-full group-hover:translate-y-0 transition-transform duration-300 flex">
+          <Link
+            href={`/order/${product.slug}`}
+            className="flex-1 bg-[#1a1a1a] text-white text-xs font-semibold text-center py-2.5 hover:bg-[#333] transition"
+          >
+            Order Now
+          </Link>
+          <AddToCart product={product} variant="minimal" />
+        </div>
       </div>
 
       {/* Info */}
-      <div className="p-4">
-        <div className="flex items-center gap-2 mb-1">
-          <p className="text-xs text-[#c9a84c] uppercase tracking-wider">
-            {product.category}
-          </p>
-          {product.gender && product.gender !== 'unisex' && (
-            <span className="text-xs text-gray-600 capitalize">· {product.gender}</span>
-          )}
-        </div>
+      <div>
+        <p className="text-[11px] text-[#999] uppercase tracking-wider mb-0.5">{product.category}</p>
+        <Link href={`/shop/${product.slug}`}>
+          <h3 className="text-sm font-medium text-[#1a1a1a] hover:text-[#555] transition line-clamp-1 mb-1">
+            {product.name}
+          </h3>
+        </Link>
 
-        <h3 className="font-semibold text-white mb-1 line-clamp-1">{product.name}</h3>
-
-        {/* Colors preview */}
-        {product.colors?.length > 0 && (
-          <div className="flex gap-1 mb-2">
-            {product.colors.slice(0, 4).map((c) => (
-              <span key={c} className="text-xs text-gray-500 border border-gray-700 px-1.5 py-0.5 rounded">
-                {c}
-              </span>
-            ))}
-            {product.colors.length > 4 && (
-              <span className="text-xs text-gray-600">+{product.colors.length - 4}</span>
-            )}
-          </div>
-        )}
-
-        {/* Sizes preview */}
         {product.sizes?.length > 0 && (
-          <div className="flex gap-1 mb-2 flex-wrap">
+          <div className="flex gap-1 mb-1.5 flex-wrap">
             {product.sizes.slice(0, 5).map((s) => (
-              <span key={s} className="text-xs text-gray-400 border border-[#c9a84c]/20 px-1.5 py-0.5 rounded font-mono">
-                {s}
-              </span>
+              <span key={s} className="text-[10px] text-[#999] border border-[#e5e5e5] px-1.5 py-0.5">{s}</span>
             ))}
           </div>
         )}
 
-        <div className="flex items-center gap-2 mb-3">
-          <span className="text-lg font-bold text-[#c9a84c]">
-            PKR {product.price?.toLocaleString()}
-          </span>
+        <div className="flex items-center gap-2">
+          <span className="text-sm font-semibold text-[#1a1a1a]">PKR {product.price?.toLocaleString()}</span>
           {product.comparePrice && (
-            <span className="text-sm text-gray-500 line-through">
-              PKR {product.comparePrice?.toLocaleString()}
-            </span>
+            <span className="text-xs text-[#999] line-through">PKR {product.comparePrice?.toLocaleString()}</span>
           )}
-        </div>
-
-        {product.rating > 0 && (
-          <div className="flex items-center gap-1 mb-3">
-            {[1, 2, 3, 4, 5].map((star) => (
-              <svg
-                key={star}
-                className={`w-3 h-3 ${star <= Math.round(product.rating) ? 'text-[#c9a84c]' : 'text-gray-600'}`}
-                fill="currentColor"
-                viewBox="0 0 20 20"
-              >
-                <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-              </svg>
-            ))}
-            <span className="text-xs text-gray-500">({product.reviewCount})</span>
-          </div>
-        )}
-
-        <div className="flex gap-2">
-          <Link href={`/order/${product.slug}`} className="flex-1 btn-gold py-2 rounded-lg text-sm text-center">
-            Order Now
-          </Link>
-          <Link href={`/shop/${product.slug}`} className="px-3 py-2 btn-outline-gold rounded-lg text-sm">
-            Details
-          </Link>
         </div>
       </div>
     </div>
