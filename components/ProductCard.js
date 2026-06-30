@@ -10,17 +10,19 @@ export default function ProductCard({ product }) {
     <div className="group">
       {/* Image */}
       <div className="relative aspect-3/4 bg-[#f5f5f5] overflow-hidden mb-3">
-        {product.images?.[0] ? (
-          <img
-            src={product.images[0]}
-            alt={product.name}
-            className="w-full h-full object-cover group-hover:scale-103 transition-transform duration-500"
-          />
-        ) : (
-          <div className="w-full h-full flex items-center justify-center">
-            <span className="text-5xl opacity-20">👗</span>
-          </div>
-        )}
+        <Link href={`/shop/${product.slug}`} className="block w-full h-full">
+          {product.images?.[0] ? (
+            <img
+              src={product.images[0]}
+              alt={product.name}
+              className="w-full h-full object-cover group-hover:scale-103 transition-transform duration-500"
+            />
+          ) : (
+            <div className="w-full h-full flex items-center justify-center">
+              <span className="text-5xl opacity-20">👗</span>
+            </div>
+          )}
+        </Link>
 
         {discount > 0 && (
           <span className="absolute top-2 left-2 bg-[#1a1a1a] text-white text-[10px] font-semibold px-2 py-0.5">
