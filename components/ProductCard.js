@@ -8,7 +8,7 @@ export default function ProductCard({ product }) {
   return (
     <div className="card-dark rounded-2xl overflow-hidden group transition-all duration-300 hover:shadow-[0_0_30px_rgba(201,168,76,0.15)]">
       {/* Image */}
-      <div className="relative aspect-[3/4] bg-gradient-to-b from-[#1a1a1a] to-[#111] overflow-hidden">
+      <div className="relative aspect-3/4 bg-linear-to-b from-[#182218] to-[#101a14] overflow-hidden">
         {product.images?.[0] ? (
           <img
             src={product.images[0]}
@@ -17,9 +17,10 @@ export default function ProductCard({ product }) {
           />
         ) : (
           <div className="w-full h-full flex items-center justify-center">
-            <span className="text-5xl">🌹</span>
+            <span className="text-5xl">👗</span>
           </div>
         )}
+
         {discount > 0 && (
           <span className="absolute top-3 left-3 bg-red-600 text-white text-xs font-bold px-2 py-1 rounded-full">
             -{discount}%
@@ -32,20 +33,49 @@ export default function ProductCard({ product }) {
         )}
         {!product.inStock && (
           <div className="absolute inset-0 bg-black/60 flex items-center justify-center">
-            <span className="text-white font-semibold">Out of Stock</span>
+            <span className="text-white font-semibold text-sm">Out of Stock</span>
           </div>
         )}
       </div>
 
       {/* Info */}
       <div className="p-4">
-        <p className="text-xs text-[#c9a84c] uppercase tracking-wider mb-1">
-          {product.category?.replace('-', ' ')}
-        </p>
+        <div className="flex items-center gap-2 mb-1">
+          <p className="text-xs text-[#c9a84c] uppercase tracking-wider">
+            {product.category}
+          </p>
+          {product.gender && product.gender !== 'unisex' && (
+            <span className="text-xs text-gray-600 capitalize">· {product.gender}</span>
+          )}
+        </div>
+
         <h3 className="font-semibold text-white mb-1 line-clamp-1">{product.name}</h3>
-        {product.volume && (
-          <p className="text-xs text-gray-500 mb-2">{product.volume}</p>
+
+        {/* Colors preview */}
+        {product.colors?.length > 0 && (
+          <div className="flex gap-1 mb-2">
+            {product.colors.slice(0, 4).map((c) => (
+              <span key={c} className="text-xs text-gray-500 border border-gray-700 px-1.5 py-0.5 rounded">
+                {c}
+              </span>
+            ))}
+            {product.colors.length > 4 && (
+              <span className="text-xs text-gray-600">+{product.colors.length - 4}</span>
+            )}
+          </div>
         )}
+
+        {/* Sizes preview */}
+        {product.sizes?.length > 0 && (
+          <div className="flex gap-1 mb-2 flex-wrap">
+            {product.sizes.slice(0, 5).map((s) => (
+              <span key={s} className="text-xs text-gray-400 border border-[#c9a84c]/20 px-1.5 py-0.5 rounded font-mono">
+                {s}
+              </span>
+            ))}
+          </div>
+        )}
+
         <div className="flex items-center gap-2 mb-3">
           <span className="text-lg font-bold text-[#c9a84c]">
             PKR {product.price?.toLocaleString()}
@@ -57,7 +87,6 @@ export default function ProductCard({ product }) {
           )}
         </div>
 
-        {/* Stars */}
         {product.rating > 0 && (
           <div className="flex items-center gap-1 mb-3">
             {[1, 2, 3, 4, 5].map((star) => (
@@ -75,16 +104,10 @@ export default function ProductCard({ product }) {
         )}
 
         <div className="flex gap-2">
-          <Link
-            href={`/order/${product.slug}`}
-            className="flex-1 btn-gold py-2 rounded-lg text-sm text-center"
-          >
+          <Link href={`/order/${product.slug}`} className="flex-1 btn-gold py-2 rounded-lg text-sm text-center">
             Order Now
           </Link>
-          <Link
-            href={`/shop/${product.slug}`}
-            className="px-3 py-2 btn-outline-gold rounded-lg text-sm"
-          >
+          <Link href={`/shop/${product.slug}`} className="px-3 py-2 btn-outline-gold rounded-lg text-sm">
             Details
           </Link>
         </div>

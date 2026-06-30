@@ -5,7 +5,7 @@ import { useEffect, useState } from 'react'
 
 const NAV_ITEMS = [
   { href: '/admin/dashboard', label: 'Dashboard', icon: '📊' },
-  { href: '/admin/products', label: 'Products', icon: '🌹' },
+  { href: '/admin/products', label: 'Products', icon: '👗' },
   { href: '/admin/users', label: 'Users', icon: '👤' },
   { href: '/admin/affiliates', label: 'Affiliates', icon: '🤝' },
   { href: '/admin/orders', label: 'Orders', icon: '📦' },
@@ -59,7 +59,7 @@ export default function AdminNav() {
     <aside className="w-56 bg-[#111111] border-r border-[#c9a84c]/20 flex flex-col min-h-screen">
       <div className="p-5 border-b border-[#c9a84c]/20">
         <Link href="/" className="text-lg font-bold gold-text tracking-wider">
-          SCENT INN
+          GULLKAR
         </Link>
         <p className="text-xs text-gray-500 mt-1">Admin Portal</p>
       </div>

@@ -5,38 +5,38 @@ import Link from 'next/link'
 const FALLBACK_SLIDES = [
   {
     _id: '1',
-    name: 'Royal Oud Collection',
-    heroSlideTagline: 'The Essence of Royalty',
+    name: 'Summer Kurta Collection',
+    heroSlideTagline: 'Wear Your Identity',
     images: [],
-    slug: 'royal-oud',
-    price: 4500,
-    category: 'oud',
+    slug: 'summer-kurta',
+    price: 2500,
+    category: 'men',
   },
   {
     _id: '2',
-    name: 'Floral Bloom',
-    heroSlideTagline: 'Bloom Into Elegance',
+    name: 'Lawn Embroidered',
+    heroSlideTagline: 'Elegance in Every Thread',
     images: [],
-    slug: 'floral-bloom',
+    slug: 'lawn-embroidered',
     price: 3200,
     category: 'women',
   },
   {
     _id: '3',
-    name: 'Midnight Noir',
-    heroSlideTagline: 'Darkness Never Smelled So Good',
+    name: 'Kids Festive Wear',
+    heroSlideTagline: 'Dressed for Every Occasion',
     images: [],
-    slug: 'midnight-noir',
-    price: 3800,
-    category: 'men',
+    slug: 'kids-festive',
+    price: 1800,
+    category: 'kids',
   },
 ]
 
 const GRADIENT_BKGS = [
-  'from-[#1a0a00] via-[#2d1a00] to-[#0a0a0a]',
-  'from-[#0a001a] via-[#1a0030] to-[#0a0a0a]',
-  'from-[#001a0a] via-[#002d1a] to-[#0a0a0a]',
-  'from-[#1a000a] via-[#2d0015] to-[#0a0a0a]',
+  'from-[#0f2318] via-[#1a3c2e] to-[#0a0f0d]',
+  'from-[#1a1200] via-[#2d2000] to-[#0a0f0d]',
+  'from-[#0f2318] via-[#0a2018] to-[#0a0f0d]',
+  'from-[#1a0e00] via-[#1a3c2e] to-[#0a0f0d]',
 ]
 
 export default function HeroSlider({ slides: propSlides }) {
@@ -84,7 +84,7 @@ export default function HeroSlider({ slides: propSlides }) {
             />
           ) : (
             <div className="w-full h-full flex items-center justify-center bg-[#111]">
-              <span className="text-7xl">🌹</span>
+              <span className="text-7xl">👗</span>
             </div>
           )}
           {/* subtle gradient fade into text area below */}
@@ -100,7 +100,7 @@ export default function HeroSlider({ slides: propSlides }) {
             {slide.name}
           </h1>
           <p className="text-sm text-gray-300 italic mb-2">
-            &ldquo;{slide.heroSlideTagline || 'Discover the art of fragrance'}&rdquo;
+            &ldquo;{slide.heroSlideTagline || 'Wear Your Identity'}&rdquo;
           </p>
           <p className="text-2xl font-bold text-[#c9a84c] mb-5">
             PKR {slide.price?.toLocaleString()}
@@ -139,7 +139,7 @@ export default function HeroSlider({ slides: propSlides }) {
                 {slide.name}
               </h1>
               <p className="text-xl text-gray-300 mb-3 italic">
-                &ldquo;{slide.heroSlideTagline || 'Discover the art of fragrance'}&rdquo;
+                &ldquo;{slide.heroSlideTagline || 'Wear Your Identity'}&rdquo;
               </p>
               <p className="text-3xl font-bold text-[#c9a84c] mb-8">
                 PKR {slide.price?.toLocaleString()}
@@ -172,7 +172,7 @@ export default function HeroSlider({ slides: propSlides }) {
                     />
                   ) : (
                     <div className="flex h-full flex-col items-center justify-center gap-4 bg-[#111] text-center px-6">
-                      <div className="text-8xl">🌹</div>
+                      <div className="text-8xl">👗</div>
                       <p className="text-xl font-semibold text-[#c9a84c]">{slide.name}</p>
                     </div>
                   )}
@@ -180,7 +180,7 @@ export default function HeroSlider({ slides: propSlides }) {
                 {/* Badge */}
                 <div className="absolute -top-4 right-4 w-20 h-20 rounded-full bg-[#c9a84c]/10 border border-[#c9a84c]/30 flex items-center justify-center">
                   <span className="text-[#c9a84c] text-[0.6rem] font-bold text-center leading-tight">
-                    LUXURY<br />SCENT
+                    GULLKAR<br />STYLE
                   </span>
                 </div>
               </div>

@@ -60,7 +60,7 @@ export default function AdminDashboardClient() {
                           <div className="w-8 h-8 rounded bg-[#1a1a1a] flex items-center justify-center text-sm overflow-hidden">
                             {p.images?.[0] ? (
                               <img src={p.images[0]} alt={p.name} className="w-full h-full object-cover" />
-                            ) : '🌹'}
+                            ) : '👗'}
                           </div>
                           <div className="flex-1 min-w-0">
                             <p className="text-white text-sm truncate">{p.name}</p>

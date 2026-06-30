@@ -198,7 +198,7 @@ export default async function AnalyticsPage() {
                     {p.images?.[0] ? (
                       <img src={p.images[0]} alt={p.name} className="w-full h-full object-cover" />
                     ) : (
-                      <div className="w-full h-full flex items-center justify-center text-lg">🌹</div>
+                      <div className="w-full h-full flex items-center justify-center text-lg">👗</div>
                     )}
                   </div>
                   <div className="flex-1 min-w-0">
@@ -252,7 +252,7 @@ export default async function AnalyticsPage() {
                     {t.image ? (
                       <img src={t.image} alt={t.name || t.slug} className="w-full h-full object-cover" />
                     ) : (
-                      <div className="w-full h-full flex items-center justify-center text-base">🌹</div>
+                      <div className="w-full h-full flex items-center justify-center text-base">👗</div>
                     )}
                   </div>
                   <div className="flex-1 min-w-0">

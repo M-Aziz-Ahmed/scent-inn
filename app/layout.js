@@ -12,23 +12,20 @@ const geist = Geist({
 })
 
 export const metadata = {
-  title: 'Scent Inn — Luxury Perfumes Brand',
-  description:
-    'Discover our exclusive collection of luxury perfumes. Handcrafted fragrances for the discerning individual.',
-  keywords: 'perfume, fragrance, luxury, oud, attar, scent, cologne, online perfume store, best perfume',
+  title: 'Gullkar — Crafted Clothing',
+  description: 'Shop Gullkar — premium clothing for men, women and kids. Fast delivery across Pakistan. Cash on delivery available.',
+  keywords: 'clothing, fashion, kurta, shalwar kameez, men clothing, women clothing, Pakistani fashion, Gullkar',
   openGraph: {
-    title: 'Scent Inn — Luxury Perfumes Brand',
-    description:
-      'Discover our exclusive collection of luxury perfumes. Handcrafted fragrances for the discerning individual.',
+    title: 'Gullkar — Crafted Clothing',
+    description: 'Shop Gullkar — premium clothing with fast delivery across Pakistan.',
     type: 'website',
-    siteName: 'Scent Inn',
+    siteName: 'Gullkar',
     url: 'https://yourdomain.com',
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Scent Inn — Luxury Perfumes Brand',
-    description:
-      'Discover our exclusive collection of luxury perfumes. Handcrafted fragrances for the discerning individual.',
+    title: 'Gullkar — Crafted Clothing',
+    description: 'Shop Gullkar — premium clothing with fast delivery across Pakistan.',
   },
 }
 
@@ -36,7 +33,18 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en" className={`${geist.variable} h-full`}>
       <head>
-        {/* Monetag — zone 252100 (Multitag/push) */}
+        <meta name="google-site-verification" content="OxJnDlxKld6R8V8RXE_SqynIk0LcRgZlRtpsCXOIGKc" />
+        {/* <meta name="monetag" content="8ea358354096dee6399a550453c22ee8" /> */}
+        <meta name="google-adsense-account" content="ca-pub-8760416573005949" />
+      </head>
+      <body className="min-h-full flex flex-col bg-[#0a0f0d] text-white antialiased">
+        {children}
+        {/* <AdBanner /> */}
+        <Suspense fallback={null}>
+          <AffiliateTracker />
+        </Suspense>
+        <Analytics />
+        {/* Monetag — zone 252100 */}
         {/* <Script
           id="monetag-252100"
           src="https://quge5.com/88/tag.min.js"
@@ -44,7 +52,6 @@ export default function RootLayout({ children }) {
           data-cfasync="false"
           strategy="beforeInteractive"
         /> */}
-
         {/* Monetag — zone 11180994 */}
         {/* <Script
           id="monetag-11180994"
@@ -53,18 +60,6 @@ export default function RootLayout({ children }) {
             __html: `(function(s){s.dataset.zone='11180994',s.src='https://nap5k.com/tag.min.js'})([document.documentElement,document.body].filter(Boolean).pop().appendChild(document.createElement('script')))`,
           }}
         /> */}
-        <meta name="google-site-verification" content="OxJnDlxKld6R8V8RXE_SqynIk0LcRgZlRtpsCXOIGKc" />
-        {/* <meta name="monetag" content="8ea358354096dee6399a550453c22ee8" />
-        <meta name="google-adsense-account" content="ca-pub-8760416573005949" /> */}
-      </head>
-      <body className="min-h-full flex flex-col bg-[#0a0a0a] text-white antialiased">
-        {children}
-        {/* <AdBanner /> */}
-        <Suspense fallback={null}>
-          <AffiliateTracker />
-        </Suspense>
-        <Analytics />
-
         {/* EffectiveCPM — pop/push unit */}
         {/* <Script
           id="effectivecpm-push"
@@ -75,3 +70,4 @@ export default function RootLayout({ children }) {
     </html>
   )
 }
+  

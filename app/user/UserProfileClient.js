@@ -7,7 +7,7 @@ export default function UserProfileClient() {
 
   useEffect(() => {
     try {
-      const stored = localStorage.getItem('scentUser')
+      const stored = localStorage.getItem('gullkarUser')
       if (stored) {
         const obj = JSON.parse(stored)
         setName(obj.name || '')
@@ -19,7 +19,7 @@ export default function UserProfileClient() {
   function save() {
     const obj = { name, email }
     try {
-      localStorage.setItem('scentUser', JSON.stringify(obj))
+      localStorage.setItem('gullkarUser', JSON.stringify(obj))
       alert('Profile saved locally')
     } catch {
       alert('Unable to save profile')

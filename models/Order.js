@@ -58,7 +58,7 @@ const OrderSchema = new mongoose.Schema(
 OrderSchema.pre('save', async function () {
   if (!this.orderNumber) {
     const count = await mongoose.model('Order').countDocuments()
-    this.orderNumber = `SI-${String(count + 1).padStart(5, '0')}`
+    this.orderNumber = `GK-${String(count + 1).padStart(5, '0')}`
   }
   // Update product sales count
   if (this.isNew) {

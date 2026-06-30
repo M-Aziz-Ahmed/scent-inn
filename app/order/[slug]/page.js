@@ -18,9 +18,9 @@ async function getProduct(slug) {
 export async function generateMetadata({ params }) {
   const { slug } = await params
   const product = await getProduct(slug)
-  if (!product) return { title: 'Order — Scent Inn' }
+  if (!product) return { title: 'Order — Gullkar' }
   return {
-    title: `Order ${product.name} — Scent Inn`,
+    title: `Order ${product.name} — Gullkar`,
     description: `Order ${product.name} now with Cash on Delivery. Fast shipping across Pakistan.`,
   }
 }
@@ -49,7 +49,7 @@ export default async function OrderPage({ params }) {
                   {product.images?.[0] ? (
                     <img src={product.images[0]} alt={product.name} className="w-full h-full object-cover rounded-xl" />
                   ) : (
-                    <span className="text-4xl">🌹</span>
+                    <span className="text-4xl">👗</span>
                   )}
                 </div>
                 <div>
@@ -92,7 +92,7 @@ export default async function OrderPage({ params }) {
                   <span className="text-green-400">✓</span> Delivery within 3-5 business days
                 </div>
                 <div className="flex items-center gap-2">
-                  <span className="text-green-400">✓</span> 100% authentic product
+                  <span className="text-green-400">✓</span> 100% original product
                 </div>
               </div>
             </div>

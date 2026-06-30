@@ -4,7 +4,7 @@ export async function POST(request) {
   const admin = await getAdminFromRequest(request)
   if (!admin) return Response.json({ error: 'Unauthorized' }, { status: 401 })
 
-  const site = process.env.SITE_URL || 'https://scent-inn.vercel.app'
+  const site = process.env.SITE_URL || 'https://gullkar.vercel.app'
   const sitemapUrl = `${site.replace(/\/$/, '')}/sitemap.xml`
 
   try {

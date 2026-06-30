@@ -24,7 +24,7 @@ export async function POST(request) {
       cloudinary.uploader
         .upload_stream(
           {
-            folder: 'scent-inn/products',
+            folder: 'gullkar/products',
             resource_type: 'image',
             transformation: [
               { width: 1200, height: 1200, crop: 'limit', quality: 'auto:good', fetch_format: 'auto' },

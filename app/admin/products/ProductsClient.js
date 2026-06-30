@@ -73,7 +73,7 @@ export default function ProductsClient() {
             <div className="text-gray-400">Loading products...</div>
           ) : products.length === 0 ? (
             <div className="text-center py-20">
-              <div className="text-5xl mb-4">🌹</div>
+              <div className="text-5xl mb-4">👗</div>
               <p className="text-gray-400 mb-4">No products yet</p>
               <button onClick={() => setShowForm(true)} className="btn-gold px-6 py-2 rounded-lg">
                 Add First Product
@@ -100,7 +100,7 @@ export default function ProductsClient() {
                             <div className="w-10 h-10 rounded-lg bg-[#1a1a1a] flex items-center justify-center overflow-hidden flex-shrink-0">
                               {product.images?.[0] ? (
                                 <img src={product.images[0]} alt={product.name} className="w-full h-full object-cover" />
-                              ) : '🌹'}
+                              ) : '👗'}
                             </div>
                             <div>
                               <p className="text-white font-medium">{product.name}</p>

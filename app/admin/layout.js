@@ -1,6 +1,6 @@
 export const metadata = {
-  title: 'Admin — Scent Inn',
-  description: 'Scent Inn Admin Portal',
+  title: 'Admin — Gullkar',
+  description: 'Gullkar Admin Portal',
 }
 
 import AdminNav from './AdminNav'

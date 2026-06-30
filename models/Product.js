@@ -9,24 +9,28 @@ const ProductSchema = new mongoose.Schema(
     price: { type: Number, required: true, min: 0 },
     comparePrice: { type: Number, min: 0 },
     images: [{ type: String }],
-    category: {
+
+    // Clothing-specific fields
+    category: { type: String, required: true, trim: true }, // dynamic — no enum
+    sizes: [{ type: String, trim: true }],   // e.g. ['XS','S','M','L','XL','XXL']
+    colors: [{ type: String, trim: true }],  // e.g. ['Black','White','Navy']
+    material: { type: String, trim: true },  // e.g. 'Cotton', 'Linen'
+    gender: {
       type: String,
-      enum: ['men', 'women', 'unisex', 'gift-sets', 'oud', 'floral', 'fresh', 'oriental'],
-      required: true,
+      enum: ['men', 'women', 'kids', 'unisex'],
+      default: 'unisex',
     },
-    notes: {
-      top: [String],
-      middle: [String],
-      base: [String],
-    },
-    volume: { type: String },
+    sku: { type: String, trim: true },
+
     inStock: { type: Boolean, default: true },
     stockCount: { type: Number, default: 0 },
+
     isFeatured: { type: Boolean, default: false },
     featuredOrder: { type: Number, default: 0 },
     isHeroSlide: { type: Boolean, default: false },
     heroSlideOrder: { type: Number, default: 0 },
     heroSlideTagline: { type: String },
+
     salesCount: { type: Number, default: 0 },
     rating: { type: Number, default: 0, min: 0, max: 5 },
     reviewCount: { type: Number, default: 0 },

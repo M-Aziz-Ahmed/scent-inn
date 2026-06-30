@@ -3,7 +3,7 @@ import Product from '@/models/Product'
 
 export async function GET() {
   await connectDB()
-  const base = process.env.SITE_URL || 'https://scent-inn.vercel.app'
+  const base = process.env.SITE_URL || 'https://gullkar.vercel.app'
 
   const products = await Product.find({ isActive: true }).select('slug updatedAt').lean()
 

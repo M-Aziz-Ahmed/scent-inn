@@ -23,7 +23,7 @@ export async function generateMetadata({ params }) {
   const product = await getProduct(slug)
   if (!product) return { title: 'Product Not Found' }
   return {
-    title: `${product.name} — Scent Inn`,
+    title: `${product.name} — Gullkar`,
     description: product.shortDescription || product.description,
   }
 }
@@ -44,7 +44,7 @@ export default async function ProductPage({ params }) {
       <main className="min-h-screen">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
           {/* Breadcrumb */}
-          <nav className="flex gap-2 text-sm text-gray-400 mb-8">
+          <nav className="flex gap-2 text-sm text-gray-400 mb-8 flex-wrap">
             <Link href="/" className="hover:text-[#c9a84c]">Home</Link>
             <span>/</span>
             <Link href="/shop" className="hover:text-[#c9a84c]">Shop</Link>
@@ -53,17 +53,25 @@ export default async function ProductPage({ params }) {
           </nav>
 
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
-            {/* Images */}
+            {/* Gallery */}
             <div>
               <ProductImageGallery images={product.images} name={product.name} />
             </div>
 
             {/* Details */}
             <div>
-              <span className="text-[#c9a84c] text-sm uppercase tracking-wider">
-                {product.category?.replace('-', ' ')}
-              </span>
-              <h1 className="text-4xl font-bold text-white mt-2 mb-3">{product.name}</h1>
+              <div className="flex items-center gap-2 mb-2">
+                <span className="text-[#c9a84c] text-sm uppercase tracking-wider">
+                  {product.category}
+                </span>
+                {product.gender && (
+                  <span className="text-xs text-gray-500 capitalize border border-gray-700 px-2 py-0.5 rounded-full">
+                    {product.gender}
+                  </span>
+                )}
+              </div>
+
+              <h1 className="text-4xl font-bold text-white mt-1 mb-3">{product.name}</h1>
 
               {product.rating > 0 && (
                 <div className="flex items-center gap-2 mb-4">
@@ -94,37 +102,46 @@ export default async function ProductPage({ params }) {
                 )}
               </div>
 
-              {product.volume && (
-                <p className="text-gray-400 mb-4">Volume: <span className="text-white">{product.volume}</span></p>
-              )}
-
               <p className="text-gray-300 leading-relaxed mb-6">{product.description}</p>
 
-              {/* Notes */}
-              {(product.notes?.top?.length > 0 || product.notes?.middle?.length > 0 || product.notes?.base?.length > 0) && (
-                <div className="card-dark rounded-xl p-4 mb-6">
-                  <h3 className="font-semibold text-[#c9a84c] mb-3">Fragrance Notes</h3>
-                  <div className="space-y-2 text-sm">
-                    {product.notes?.top?.length > 0 && (
-                      <div className="flex gap-2">
-                        <span className="text-gray-500 w-16">Top:</span>
-                        <span className="text-gray-300">{product.notes.top.join(', ')}</span>
-                      </div>
-                    )}
-                    {product.notes?.middle?.length > 0 && (
-                      <div className="flex gap-2">
-                        <span className="text-gray-500 w-16">Heart:</span>
-                        <span className="text-gray-300">{product.notes.middle.join(', ')}</span>
-                      </div>
-                    )}
-                    {product.notes?.base?.length > 0 && (
-                      <div className="flex gap-2">
-                        <span className="text-gray-500 w-16">Base:</span>
-                        <span className="text-gray-300">{product.notes.base.join(', ')}</span>
-                      </div>
-                    )}
+              {/* Sizes */}
+              {product.sizes?.length > 0 && (
+                <div className="mb-5">
+                  <p className="text-sm text-gray-400 mb-2">Available Sizes</p>
+                  <div className="flex flex-wrap gap-2">
+                    {product.sizes.map((size) => (
+                      <span key={size} className="border border-[#c9a84c]/40 text-white text-sm px-3 py-1.5 rounded-lg font-mono">
+                        {size}
+                      </span>
+                    ))}
                   </div>
                 </div>
+              )}
+
+              {/* Colors */}
+              {product.colors?.length > 0 && (
+                <div className="mb-5">
+                  <p className="text-sm text-gray-400 mb-2">Colors Available</p>
+                  <div className="flex flex-wrap gap-2">
+                    {product.colors.map((color) => (
+                      <span key={color} className="border border-gray-700 text-gray-300 text-sm px-3 py-1.5 rounded-lg capitalize">
+                        {color}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              {/* Material */}
+              {product.material && (
+                <p className="text-gray-400 mb-5 text-sm">
+                  Material: <span className="text-white">{product.material}</span>
+                </p>
+              )}
+
+              {/* SKU */}
+              {product.sku && (
+                <p className="text-gray-600 mb-5 text-xs">SKU: {product.sku}</p>
               )}
 
               <div className="flex gap-4">
@@ -142,10 +159,11 @@ export default async function ProductPage({ params }) {
                 )}
               </div>
 
-              <div className="flex gap-6 mt-6 text-sm text-gray-400">
-                <span>✅ Authentic</span>
+              <div className="flex gap-6 mt-6 text-sm text-gray-400 flex-wrap">
+                <span>✅ 100% Original</span>
                 <span>🚚 Fast Delivery</span>
                 <span>💳 Cash on Delivery</span>
+                <span>🔄 Easy Returns</span>
               </div>
 
               <GenerateRefLink productSlug={product.slug} />

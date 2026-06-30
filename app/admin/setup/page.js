@@ -68,7 +68,7 @@ export default function SetupPage() {
               value={form.email}
               onChange={(e) => setForm((p) => ({ ...p, email: e.target.value }))}
               required
-              placeholder="admin@scentinn.com"
+              placeholder="admin@gullkar.com"
               className="w-full bg-[#1a1a1a] border border-[#c9a84c]/20 rounded-lg px-4 py-3 text-white placeholder-gray-600 focus:outline-none focus:border-[#c9a84c]/60"
             />
           </div>

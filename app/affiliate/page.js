@@ -3,8 +3,8 @@ import Footer from '@/components/Footer'
 import AffiliatePortal from './AffiliatePortal'
 
 export const metadata = {
-  title: 'Affiliate Portal — Scent Inn',
-  description: 'Scent Inn affiliate partner dashboard',
+  title: 'Affiliate Portal — Gullkar',
+  description: 'Gullkar affiliate partner dashboard',
   robots: 'noindex',
 }
 
