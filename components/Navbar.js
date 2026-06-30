@@ -22,8 +22,8 @@ export default function Navbar() {
           <div className="flex items-center justify-between h-14">
 
             {/* Logo */}
-            <Link href="/" className="text-xl font-bold text-[#1a1a1a] tracking-widest italic">
-              <Image src='./logo-1.jpeg' width={100} height={100}/>
+            <Link href="/" className="flex items-center">
+              <Image src="/logo-1.jpeg" alt="Gullkar" width={120} height={40} className="h-10 w-auto object-contain" priority />
             </Link>
 
             {/* Desktop nav */}
