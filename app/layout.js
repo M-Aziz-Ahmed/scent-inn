@@ -41,7 +41,7 @@ export default function RootLayout({ children }) {
       <body className="min-h-full flex flex-col bg-white text-[#1a1a1a] antialiased">
         <CartProvider>
           {children}
-          <AdBanner />
+          {/* <AdBanner /> */}
           <Suspense fallback={null}>
             <AffiliateTracker />
           </Suspense>
