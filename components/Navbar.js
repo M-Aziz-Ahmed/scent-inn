@@ -3,6 +3,7 @@ import Link from 'next/link'
 import { useState } from 'react'
 import { useCart } from '@/lib/cartContext'
 import CartDrawer from './CartDrawer'
+import Image from 'next/image'
 
 export default function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false)
@@ -22,7 +23,7 @@ export default function Navbar() {
 
             {/* Logo */}
             <Link href="/" className="text-xl font-bold text-[#1a1a1a] tracking-widest italic">
-              Gullkar
+              <Image src='./logo-1.jpeg' width={100} height={100}/>
             </Link>
 
             {/* Desktop nav */}
